@@ -317,30 +317,56 @@ export default function SellerProfilePage() {
             {/* Status Options */}
          {/* Status Options */}
 <div className="flex items-center gap-4 mb-6 whitespace-nowrap">
-  {/* Blur selfie */}
+
+  {/* OPTION TEMPLATE — Blur selfie */}
   <label
-    className={`flex items-center gap-2 px-4 py-2 rounded-lg border cursor-pointer transition-all whitespace-nowrap
-      ${selectedDocumentStatus === "blur_selfie" 
-        ? "border-[#15340B] bg-[#15340B] text-white" 
+    className={`flex items-center gap-3 px-3 py-2 rounded-lg border cursor-pointer transition-all whitespace-nowrap
+      ${selectedDocumentStatus === "blur_selfie"
+        ? "border-[#15340B] bg-[#15340B] text-white"
         : "border-[#E9E9E9] bg-white text-[#242424]"
       }`}
   >
+    {/* Hidden Radio */}
     <input
       type="radio"
       name="documentStatus"
       value="blur_selfie"
       checked={selectedDocumentStatus === "blur_selfie"}
       onChange={() => handleDocumentStatusClick("blur_selfie")}
-      className="w-4 h-4 text-[#15340B]"
+      className="hidden"
     />
+
+    {/* Custom Check Radio */}
+    <span
+      className={`w-5 h-5 rounded-full flex items-center justify-center border 
+        ${ selectedDocumentStatus === "blur_selfie"
+    ? "bg-white border-[#15340B]"
+    : "border-[#E9E9E9]"
+}`}
+    >
+      {selectedDocumentStatus === "blur_selfie" && (
+        <svg
+          className="w-3 h-3 text-[#15340B]"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M5 13l4 4L19 7" />
+        </svg>
+      )}
+    </span>
+
     <span className="text-sm">Blur selfie</span>
   </label>
 
   {/* Invalid document */}
   <label
-    className={`flex items-center gap-2 px-4 py-2 rounded-lg border cursor-pointer transition-all whitespace-nowrap
-      ${selectedDocumentStatus === "invalid_document" 
-        ? "border-[#15340B] bg-[#15340B] text-white" 
+    className={`flex items-center gap-3 px-3 py-2 rounded-lg border cursor-pointer transition-all whitespace-nowrap
+      ${selectedDocumentStatus === "invalid_document"
+        ? "border-[#15340B] bg-[#15340B] text-white"
         : "border-[#E9E9E9] bg-white text-[#242424]"
       }`}
   >
@@ -350,16 +376,39 @@ export default function SellerProfilePage() {
       value="invalid_document"
       checked={selectedDocumentStatus === "invalid_document"}
       onChange={() => handleDocumentStatusClick("invalid_document")}
-      className="w-4 h-4 text-[#15340B]"
+      className="hidden"
     />
+
+    <span
+      className={`w-5 h-5 rounded-full flex items-center justify-center border 
+        ${ selectedDocumentStatus === "blur_selfie"
+    ? "bg-white border-[#15340B]"
+    : "border-[#E9E9E9]"
+}`}
+    >
+      {selectedDocumentStatus === "invalid_document" && (
+        <svg
+          className="w-3 h-3 text-[#15340B]"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M5 13l4 4L19 7" />
+        </svg>
+      )}
+    </span>
+
     <span className="text-sm">Invalid document</span>
   </label>
 
   {/* Expired CAC */}
   <label
-    className={`flex items-center gap-2 px-4 py-2 rounded-lg border cursor-pointer transition-all whitespace-nowrap
-      ${selectedDocumentStatus === "expired_cac" 
-        ? "border-[#15340B] bg-[#15340B] text-white" 
+    className={`flex items-center gap-3 px-3 py-2 rounded-lg border cursor-pointer transition-all whitespace-nowrap
+      ${selectedDocumentStatus === "expired_cac"
+        ? "border-[#15340B] bg-[#15340B] text-white"
         : "border-[#E9E9E9] bg-white text-[#242424]"
       }`}
   >
@@ -369,10 +418,34 @@ export default function SellerProfilePage() {
       value="expired_cac"
       checked={selectedDocumentStatus === "expired_cac"}
       onChange={() => handleDocumentStatusClick("expired_cac")}
-      className="w-4 h-4 text-[#15340B]"
+      className="hidden"
     />
+
+    <span
+      className={`w-5 h-5 rounded-full flex items-center justify-center border 
+        ${ selectedDocumentStatus === "blur_selfie"
+    ? "bg-white border-[#15340B]"
+    : "border-[#E9E9E9]"
+}`}
+    >
+      {selectedDocumentStatus === "expired_cac" && (
+        <svg
+          className="w-3 h-3 text-[#15340B]"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M5 13l4 4L19 7" />
+        </svg>
+      )}
+    </span>
+
     <span className="text-sm">Expired CAC</span>
   </label>
+
 </div>
 
 

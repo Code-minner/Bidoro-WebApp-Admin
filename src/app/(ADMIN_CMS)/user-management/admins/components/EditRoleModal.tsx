@@ -1,30 +1,34 @@
-import { useState } from "react";
-import { Check } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Check, Info } from "lucide-react";
 
-// Example permissions
 const ALL_PERMISSIONS = [
   "KYC approval",
   "Edit User",
   "Create Admin",
   "Remove Admins",
   "Create Roles",
-  "Suspend Customer",
   "Read Products",
   "Delete Products",
   "Approve Products",
-  "Manage Orders",
+  "Suspend Customer",
 ];
 
-interface AddRoleModalProps {
+interface EditRoleModalProps {
   onClose: () => void;
+  role: { title: string; permissions: string[] };
   onSubmit: (data: { title: string; permissions: string[] }) => void;
 }
 
-const AddRoleModal = ({ onClose, onSubmit }: AddRoleModalProps) => {
+const EditRoleModal = ({ onClose, role, onSubmit }: EditRoleModalProps) => {
   const [title, setTitle] = useState("");
   const [selectedPermissions, setSelectedPermissions] = useState<string[]>([]);
 
-  const handleTogglePermission = (permission: string) => {
+  useEffect(() => {
+    setTitle(role.title);
+    setSelectedPermissions(role.permissions);
+  }, [role]);
+
+  const handleToggle = (permission: string) => {
     setSelectedPermissions((prev) =>
       prev.includes(permission)
         ? prev.filter((p) => p !== permission)
@@ -33,12 +37,9 @@ const AddRoleModal = ({ onClose, onSubmit }: AddRoleModalProps) => {
   };
 
   const handleSubmit = () => {
-    if (title.trim() && selectedPermissions.length > 0) {
-      onSubmit({ title, permissions: selectedPermissions });
-      onClose();
-    } else {
-      alert("Please enter a title and select at least one permission.");
-    }
+    if (!title.trim()) return;
+    onSubmit({ title, permissions: selectedPermissions });
+    onClose();
   };
 
   return (
@@ -50,7 +51,7 @@ const AddRoleModal = ({ onClose, onSubmit }: AddRoleModalProps) => {
         className="bg-white rounded-xl w-full max-w-xl p-6 relative shadow-xl max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* X Close */}
+        {/* Close Icon */}
         <button
           onClick={onClose}
           className="absolute right-4 top-4 text-gray-500 hover:text-gray-900"
@@ -60,45 +61,42 @@ const AddRoleModal = ({ onClose, onSubmit }: AddRoleModalProps) => {
 
         {/* Title */}
         <h2 className="text-lg font-semibold mb-6 pb-4 border-b border-gray-300 -mx-6 px-6">
-          Add new role
+          Edit role
         </h2>
 
         {/* Role Title */}
-        <label className="block text-sm text-black font-medium mb-1">
-          Role Title
+        <label className="block text-sm font-medium text-black mb-1">
+          Title
         </label>
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="mb-4 w-full px-3 py-2 bg-gray-100 rounded-lg focus:outline-none"
-          placeholder="Enter role title (e.g., Content Manager)"
+          className="mb-4 w-full px-3 py-2 bg-gray-100 rounded-lg"
         />
 
         {/* Permissions */}
-        <label className="block text-sm text-black font-medium mb-2 mt-4">
-          Select Permissions
+        <label className="block text-sm font-medium text-black mb-2 mt-4">
+          Permissions
         </label>
 
-        {/* Bordered permissions container */}
-        <div className="border rounded-lg p-4">
+        <div className="border border-gray-300 rounded-lg p-4">
           <div className="grid grid-cols-2 gap-y-3 gap-x-4">
             {ALL_PERMISSIONS.map((permission) => {
-              const isSelected = selectedPermissions.includes(permission);
+              const selected = selectedPermissions.includes(permission);
               return (
                 <label
                   key={permission}
-                  className="flex items-center gap-3 cursor-pointer select-none"
-                  onClick={() => handleTogglePermission(permission)}
+                  className="flex items-center gap-3 cursor-pointer"
+                  onClick={() => handleToggle(permission)}
                 >
-                  {/* Square checkbox */}
                   <span
-                    className={`w-5 h-5 border rounded-sm flex items-center justify-center transition ${
-                      isSelected
-                        ? "bg-primaryGreen-500 border-primaryGreen-500 text-white"
-                        : "border-gray-400 bg-white"
+                    className={`w-5 h-5 border rounded-sm flex items-center justify-center ${
+                      selected
+                        ? "bg-primaryGreen-500 border-primaryGreen-600 text-white"
+                        : "bg-white border-gray-400"
                     }`}
                   >
-                    {isSelected && <Check className="w-4 h-4" />}
+                    {selected && <Check className="w-4 h-4" />}
                   </span>
 
                   <span className="text-sm text-gray-800">{permission}</span>
@@ -108,8 +106,16 @@ const AddRoleModal = ({ onClose, onSubmit }: AddRoleModalProps) => {
           </div>
         </div>
 
+        {/* ⚠️ Warning Info Box */}
+        <div className="mt-5 p-3 bg-yellow-50 border border-yellow-300 rounded-lg flex items-start gap-3">
+          <Info className="w-5 h-5 text-yellow-600 mt-0.5" />
+          <p className="text-sm text-yellow-700 leading-snug">
+            Any changes made affect all instances of this role, both existing and future.
+          </p>
+        </div>
+
         {/* Buttons */}
-        <div className="flex gap-4 mt-8">
+        <div className="mt-6 flex gap-4">
           <button
             onClick={onClose}
             className="w-1/2 py-2.5 bg-gray-200 rounded-lg font-medium"
@@ -121,7 +127,7 @@ const AddRoleModal = ({ onClose, onSubmit }: AddRoleModalProps) => {
             onClick={handleSubmit}
             className="w-1/2 py-2.5 bg-primaryGreen-500 text-white rounded-lg font-medium hover:bg-primaryGreen-600 transition"
           >
-            Create Role
+            Save changes
           </button>
         </div>
       </div>
@@ -129,4 +135,4 @@ const AddRoleModal = ({ onClose, onSubmit }: AddRoleModalProps) => {
   );
 };
 
-export default AddRoleModal;
+export default EditRoleModal;
