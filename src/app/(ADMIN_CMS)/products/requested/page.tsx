@@ -15,6 +15,9 @@ const RequestedPage = () => {
     { id: 'PB04234', name: 'iPhone 16 pro', seller: 'Johndoestores', requestedBy: 'Tunji Priscilla', price: 'N850,000', status: 'Not Responded', date: 'May 01, 2025' },
     { id: 'PB04234', name: 'iPhone 16 pro', seller: 'Johndoestores', requestedBy: 'Nelson Fred', price: 'N850,000', status: 'Responded', date: 'May 01, 2025' },
     { id: 'PB04234', name: 'iPhone 16 pro', seller: 'Johndoestores', requestedBy: 'Joseph Lucian', price: 'N850,000', status: 'Not Responded', date: 'May 01, 2025' },
+    { id: 'PB04234', name: 'iPhone 16 pro', seller: 'Johndoestores', requestedBy: 'Nelson Fred', price: 'N850,000', status: 'Responded', date: 'May 01, 2025' },
+    { id: 'PB04234', name: 'iPhone 16 pro', seller: 'Johndoestores', requestedBy: 'Nelson Fred', price: 'N850,000', status: 'Responded', date: 'May 01, 2025' },
+    { id: 'PB04234', name: 'iPhone 16 pro', seller: 'Johndoestores', requestedBy: 'Nelson Fred', price: 'N850,000', status: 'Responded', date: 'May 01, 2025' },
   ];
 
   return (

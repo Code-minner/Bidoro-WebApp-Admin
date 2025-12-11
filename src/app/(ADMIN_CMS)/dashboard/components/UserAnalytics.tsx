@@ -65,7 +65,7 @@ export default function UserAnalytics() {
         </div>
 
         {/* Year Selector */}
-        <select className="px-3 py-1.5 sm:px-4 sm:py-2 border border-[#E9E9E9] rounded-lg text-xs sm:text-sm text-[#6C6C6C] bg-white">
+        <select className="px-3 py-1.5 sm:px-4 sm:py-2 border border-[#E9E9E9] rounded-lg text-xs sm:text-sm text-[#6C6C6C] bg-white w-full sm:w-auto">
           <option>2025</option>
           <option>2024</option>
           <option>2023</option>
@@ -134,6 +134,11 @@ export default function UserAnalytics() {
             <span>Dec</span>
           </div>
         </div>
+      </div>
+
+      {/* Mobile Scroll Hint */}
+      <div className="sm:hidden text-center mt-2">
+        <span className="text-xs text-[#6C6C6C]">← Scroll for full chart →</span>
       </div>
     </div>
   );

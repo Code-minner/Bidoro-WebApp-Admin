@@ -44,13 +44,36 @@ const ReportedPage = () => {
       seller: 'Hormot stores',
       sellerProfilePic: USER_IMAGE,
       productImage: IPHONE_IMAGE,
-      reporter: 'Hormot',
+      reporter: 'Hamzatt',
       reporterProfilePic: USER_IMAGE,
       report: 'The price of this product seems unrealistic',
       status: 'Resolved',
       date: 'May 01, 2025'
     },
     {
+      id: 'PB04237',
+      name: 'AirPods Pro',
+      seller: 'Sule Gadgets',
+      sellerProfilePic: USER_IMAGE,
+      productImage: IPHONE_IMAGE,
+      reporter: 'Sule',
+      reporterProfilePic: USER_IMAGE,
+      report: 'The price of this product seems unrealistic',
+      status: 'Unresolved',
+      date: 'May 01, 2025'
+    },
+        {
+      id: 'PB04237',
+      name: 'AirPods Pro',
+      seller: 'Sule Gadgets',
+      sellerProfilePic: USER_IMAGE,
+      productImage: IPHONE_IMAGE,
+      reporter: 'Boluwatife',
+      reporterProfilePic: USER_IMAGE,
+      report: 'The price of this product seems unrealistic',
+      status: 'Resolved',
+      date: 'May 01, 2025'
+    },    {
       id: 'PB04237',
       name: 'AirPods Pro',
       seller: 'Sule Gadgets',

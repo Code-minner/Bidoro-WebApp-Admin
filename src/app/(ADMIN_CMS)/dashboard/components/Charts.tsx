@@ -75,10 +75,6 @@ export default function Charts() {
                 <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#9AA996]"></div>
                 <span className="text-[#6C6C6C]">25% Completed</span>
               </div>
-              {/* <div className="flex items-center gap-2">
-                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#C5D1C3]"></div>
-                <span className="text-[#6C6C6C]">8% Returned</span>
-              </div> */}
             </div>
           </div>
         </div>

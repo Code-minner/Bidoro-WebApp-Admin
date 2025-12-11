@@ -1,6 +1,9 @@
 // components/ProductContent.tsx
 import React, { useState } from 'react';
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Search, Filter, MoreVertical, ChevronLeft, ChevronRight, Eye, Check, Ban, Trash2 } from 'lucide-react';
+import iphoneImg from "../../../../../public/assets/iphone.png";
 
 interface Product {
   id: string;
@@ -31,14 +34,30 @@ const getStatusColor = (status: string) => {
   }
 };
 
-const ProductActionsDropdown = ({ status, onClose }: { status: string; onClose: () => void }) => {
+interface DropdownProps {
+  product: Product;
+  onClose: () => void;
+}
+
+const ProductActionsDropdown: React.FC<DropdownProps> = ({ product, onClose }) => {
+  const router = useRouter();
+
   const handleAction = (action: string) => {
-    console.log(`${action} action for ${status} product`);
+    if (action === 'view') {
+      // Navigate based on status
+      if (product.status === 'Suspended' || product.status === 'Declined') {
+        router.push(`/products/view-suspended/${product.id}`);
+      } else {
+        router.push(`/products/view/${product.id}`);
+      }
+    } else {
+      console.log(`${action} action for product ${product.id}`);
+    }
     onClose();
   };
 
   return (
-    <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-10">
+    <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-20">
       <button
         onClick={() => handleAction('view')}
         className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
@@ -47,7 +66,7 @@ const ProductActionsDropdown = ({ status, onClose }: { status: string; onClose: 
         View
       </button>
       
-      {status === 'Pending' && (
+      {product.status === 'Pending' && (
         <button
           onClick={() => handleAction('approve')}
           className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
@@ -57,7 +76,7 @@ const ProductActionsDropdown = ({ status, onClose }: { status: string; onClose: 
         </button>
       )}
       
-      {status === 'Approved' && (
+      {product.status === 'Approved' && (
         <button
           onClick={() => handleAction('suspend')}
           className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
@@ -111,29 +130,15 @@ export const ProductContent: React.FC<ProductContentProps> = ({
       {/* Table */}
       <div className="overflow-hidden">
         <table className="w-full">
-          <thead className="">
+          <thead>
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Product
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Seller
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Category
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Price
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Status
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Date Added
-              </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Actions
-              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Seller</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date Added</th>
+              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -141,30 +146,29 @@ export const ProductContent: React.FC<ProductContentProps> = ({
               <tr key={index} className="hover:bg-gray-50 transition-colors">
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
-                    <div className="h-10 w-10 flex-shrink-0 bg-gray-200 rounded"></div>
+                    {/* Product Image */}
+                    <Image
+                      src={iphoneImg}
+                      alt={product.name}
+                      width={40}
+                      height={40}
+                      className="h-10 w-10 rounded object-cover"
+                    />
                     <div className="ml-4">
                       <div className="text-sm font-medium text-gray-900">{product.name}</div>
                       <div className="text-xs text-gray-500">{product.id}</div>
                     </div>
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {product.seller}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {product.category}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {product.price}
-                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.seller}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.category}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.price}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className={`px-3 py-1 inline-flex text-xs leading-5 font-medium rounded-full ${getStatusColor(product.status)}`}>
                     {product.status}
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {product.date}
-                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.date}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <div className="relative">
                     <button 
@@ -177,10 +181,10 @@ export const ProductContent: React.FC<ProductContentProps> = ({
                       <>
                         <div 
                           className="fixed inset-0 z-10" 
-                          onClick={() => setOpenDropdown(null)}
-                        ></div>
+                          onClick={() => setOpenDropdown(null)} 
+                        />
                         <ProductActionsDropdown 
-                          status={product.status} 
+                          product={product} 
                           onClose={() => setOpenDropdown(null)} 
                         />
                       </>
@@ -193,55 +197,43 @@ export const ProductContent: React.FC<ProductContentProps> = ({
         </table>
 
         {/* Pagination */}
-<div className="px-6 py-4 border-t border-gray-200 grid grid-cols-3 items-center">
-  {/* Left */}
-  <div className="text-sm text-gray-700">
-    Page {currentPage} of {totalPages}
-  </div>
+        <div className="px-6 py-4 border-t border-gray-200 grid grid-cols-3 items-center">
+          <div className="text-sm text-gray-700">Page {currentPage} of {totalPages}</div>
 
-  {/* Center - Page numbers */}
-  <div className="flex items-center justify-center gap-2">
-    {[1, 2, 3, '...', 10, 11, 12].map((page, index) => {
-      const isActive = page === currentPage;
+          <div className="flex items-center justify-center gap-2">
+            {[1, 2, 3, '...', 10, 11, 12].map((page, index) => {
+              const isActive = page === currentPage;
+              return (
+                <button
+                  key={index}
+                  onClick={() => typeof page === 'number' && setCurrentPage(page)}
+                  disabled={page === '...'}
+                  className={`px-3 py-1 rounded text-sm ${page === '...' ? 'cursor-default' : 'hover:bg-gray-100'} ${isActive ? 'border border-gray-900 text-gray-900 font-medium' : 'text-gray-700'}`}
+                >
+                  {page}
+                </button>
+              );
+            })}
+          </div>
 
-      return (
-        <button
-          key={index}
-          onClick={() => typeof page === 'number' && setCurrentPage(page)}
-          disabled={page === '...'}
-          className={`
-            px-3 py-1 rounded text-sm
-            ${page === '...' ? 'cursor-default' : 'hover:bg-gray-100'}
-            ${isActive ? 'border border-gray-900 text-gray-900 font-medium' : 'text-gray-700'}
-          `}
-        >
-          {page}
-        </button>
-      );
-    })}
-  </div>
-
-  {/* Right - arrows */}
-  <div className="flex items-center justify-end gap-2">
-    <button
-      onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-      disabled={currentPage === 1}
-      className="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
-    >
-      <ChevronLeft className="w-5 h-5" />
-    </button>
-
-    <button
-      onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-      disabled={currentPage === totalPages}
-      className="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
-    >
-      <ChevronRight className="w-5 h-5" />
-    </button>
-  </div>
-</div>
-
-            </div>
+          <div className="flex items-center justify-end gap-2">
+            <button
+              onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+              disabled={currentPage === 1}
+              className="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+              disabled={currentPage === totalPages}
+              className="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

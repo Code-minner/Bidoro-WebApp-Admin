@@ -1,19 +1,64 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import AdminHeader from "../../../../../components/AdminHeader";
 import Image from "next/image";
+import { X } from "lucide-react";
 
-export default function InspectReportedProduct() {
+// Modal Component
+interface DeclineModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  productName: string;
+}
+
+const DeclineModal: React.FC<DeclineModalProps> = ({ isOpen, onClose, productName }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="relative bg-white rounded-lg shadow-xl w-[500px]">
+        {/* Header with Close Button */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+          <h3 className="font-semibold text-gray-900">Reason for declining</h3>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-600"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Body */}
+        <div className="px-6 py-6">
+          <p className="text-sm text-gray-600 mb-4">
+            You declined <span className="font-medium text-gray-900">{productName}</span> because:
+          </p>
+          
+          <div className="border border-gray-200 bg-gray-50 rounded-lg p-4 text-gray-800 text-sm leading-relaxed min-h-[100px]">
+            The product listing violates our community guidelines regarding authentic product representation and pricing transparency.
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default function ViewSuspendedProduct() {
   const router = useRouter();
   const { id } = useParams();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Mock product status - in real app, fetch from API
+  const productStatus = "Declined"; // or "Suspended"
+  const productName = "Apple iPhone 15 Pro Max";
 
   return (
     <div className="min-h-screen bg-[#F6F5FA]">
       <AdminHeader />
 
-      {/* ===================== BREADCRUMB ===================== */}
+      {/* Breadcrumb */}
       <div className="px-10 py-6">
         <span
           className="text-gray-500 hover:underline cursor-pointer"
@@ -26,8 +71,7 @@ export default function InspectReportedProduct() {
       </div>
 
       <div className="px-10 w-full pb-10">
-
-        {/* ======================== LEFT MAIN FORM ======================== */}
+        {/* Main Content */}
         <div className="bg-white rounded-xl p-8 shadow-sm border border-[#E9E9E9]">
 
           {/* Store Name with Profile Picture and Email */}
@@ -42,11 +86,11 @@ export default function InspectReportedProduct() {
             </div>
             <div>
               <h2 className="text-xl font-semibold text-black">Jondoe's Stores</h2>
-              <p className="text-sm text-black">jondoe@example.com</p>
+              <p className="text-sm text-gray-600">jondoe@example.com</p>
             </div>
           </div>
 
-          {/* ------- FORM GRID (3 columns) ------- */}
+          {/* Form Grid (3 columns) */}
           <div className="grid grid-cols-3 gap-6">
             <div>
               <label className="block text-sm text-black mb-1">Category</label>
@@ -82,7 +126,7 @@ export default function InspectReportedProduct() {
               <label className="block text-sm text-black mb-1">Product Title</label>
               <input
                 className="w-full p-3 border rounded-lg bg-white text-gray-400"
-                value="Apple iPhone 15 Pro Max"
+                value={productName}
                 disabled
               />
             </div>
@@ -101,12 +145,12 @@ export default function InspectReportedProduct() {
             <label className="block text-sm text-black mb-1">Product Description</label>
             <textarea
               className="w-full p-3 border rounded-lg bg-white h-32 resize-none text-gray-400"
-              value="The iPhone 15 Pro Max features an A17 chip..."
+              value="The iPhone 15 Pro Max features an A17 chip with advanced performance capabilities, stunning titanium design, and industry-leading camera system. Includes 512GB storage, 8GB RAM, and iOS 18."
               disabled
             />
           </div>
 
-          {/* ------------------ 2-COLUMN INPUT GRID ------------------ */}
+          {/* 2-Column Input Grid */}
           <div className="mt-6 grid grid-cols-2 gap-6">
             <div>
               <label className="block text-sm text-black mb-1">Condition</label>
@@ -158,7 +202,7 @@ export default function InspectReportedProduct() {
             </div>
           </div>
 
-          {/* ------------------ IMAGE GRID ------------------ */}
+          {/* Image Grid */}
           <div className="mt-10" style={{ maxWidth: '700px' }}>
             <h3 className="font-semibold mb-3 text-black">Product Images</h3>
 
@@ -181,16 +225,12 @@ export default function InspectReportedProduct() {
               </div>
             </div>
 
-            {/* Bottom row (2 images under first two top images) */}
+            {/* Bottom row (2 images) */}
             <div className="grid grid-cols-2 gap-4" style={{ width: 'calc((100% / 5) * 2)' }}>
               <div className="w-full h-28 relative rounded-xl overflow-hidden">
-                <Image src="/assets/16Front.png" alt="Bottom Left" fill className="object-cover" />
+                <Image src="/assets/16Front.png" alt="Video" fill className="object-cover" />
                 <button className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 rounded-xl hover:bg-opacity-20">
-                  <svg
-                    className="w-10 h-10 text-white"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
+                  <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M8 5v14l11-7z" />
                   </svg>
                 </button>
@@ -202,18 +242,34 @@ export default function InspectReportedProduct() {
             </div>
           </div>
 
-          {/* Buttons */}
-          <div className="mt-10 flex gap-6">
-            <button className="px-20 py-2 rounded-xl bg-[#15340B] text-white">
-              Approve
-            </button>
-            <button className="px-20 py-2 rounded-xl bg-gray-300 text-black">
-              Decline
-            </button>
-          </div>
+          {/* Reason Section */}
+<div className="mt-10">
+  <h3 className="font-semibold text-black mb-2">
+    Reason for {productStatus === "Declined" ? "declining" : "suspending"}
+  </h3>
+
+  {/* Clickable Reason Box */}
+  <button
+    onClick={() => setIsModalOpen(true)}
+    className="w-64 border border-gray-300 bg-gray-50 rounded-lg 
+               p-4 text-gray-700 text-sm hover:bg-gray-100 transition text-left"
+  >
+    {productStatus === "Declined"
+      ? "Using a false model name"
+      : "Posting prohibited content"}
+  </button>
+</div>
+
 
         </div>
       </div>
+
+      {/* Modal */}
+      <DeclineModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        productName={productName}
+      />
     </div>
   );
 }

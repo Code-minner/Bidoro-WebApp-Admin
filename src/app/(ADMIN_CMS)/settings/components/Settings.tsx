@@ -9,6 +9,7 @@ import NotificationTab from "./NotificationTab";
 
 export default function Settings() {
   const [activeTab, setActiveTab] = useState<string>("profile");
+  const [headerAction, setHeaderAction] = useState<React.ReactNode>(null);
 
   const tabs = [
     { id: "profile", label: "Profile" },
@@ -24,7 +25,12 @@ export default function Settings() {
       case "general":
         return <GeneralSettingsTab />;
       case "payment":
-        return <PaymentOptionTab />;
+        return (
+          <PaymentOptionTab 
+            setHeaderAction={setHeaderAction}
+            onAddPaymentClick={() => console.log("Add payment method clicked")}
+          />
+        );
       case "notification":
         return <NotificationTab />;
       default:
@@ -37,7 +43,12 @@ export default function Settings() {
       <AdminHeader />
 
       <div className="flex-1 overflow-auto p-8">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-6">Settings</h2>
+        {/* Header with Title and Action Button */}
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-semibold text-gray-800">Settings</h2>
+          {/* Button appears only when PaymentOptionTab sets it */}
+          {headerAction}
+        </div>
 
         <div className="bg-white rounded-lg border border-gray-200 flex">
           {/* Sidebar */}

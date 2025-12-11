@@ -8,10 +8,10 @@ interface ReportedProduct {
   id: string;
   name: string;
   seller: string;
-  sellerProfilePic: string; // New field for seller profile image path
-  productImage: string; // New field for product image path
+  sellerProfilePic: string;
+  productImage: string;
   reporter: string;
-  reporterProfilePic: string; // New field for reporter profile image path
+  reporterProfilePic: string;
   report: string;
   status: string;
   date: string;
@@ -29,110 +29,205 @@ interface ReportedContentProps {
 const getStatusColor = (status: string) => {
   switch(status) {
     case 'Resolved': return 'bg-green-100 text-green-700';
-    case 'Unresolved': return 'bg-red-100 text-red-700';
+    case 'Unresolved': return 'bg-gray-100 text-gray-700';
     default: return 'bg-gray-100 text-gray-700';
   }
 };
 
-// --- Updated Component: ReportedProductModal ---
+// --- Modal Props Interface ---
 interface ReportedProductModalProps {
     product: ReportedProduct;
     onClose: () => void;
 }
 
-
-
-
-const ReportedProductModal: React.FC<ReportedProductModalProps> = ({ product, onClose }) => {
-    const router = useRouter();
-
-    const handleInspect = () => {
-        router.push(`/products/reported/${product.id}`); // ← navigate to inspect page
-        onClose();
-    };
-
+// --- Resolved Product Modal (No Action Button) ---
+const ResolvedProductModal: React.FC<ReportedProductModalProps> = ({ product, onClose }) => {
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className="relative bg-white rounded-lg shadow-xl w-[600px]">
+                {/* Header with Close Button Only */}
+                <div className="flex items-center justify-end px-6 py-4 border-b border-gray-200">
+                    <button
+                        onClick={onClose}
+                        className="text-gray-400 hover:text-gray-600"
+                    >
+                        <X className="w-5 h-5" />
+                    </button>
+                </div>
 
-            {/* Modal container */}
-            <div className="relative bg-white rounded-lg shadow-xl w-[440px]">
-
-                {/* Close Icon (outside top-right like Figma) */}
-                <button
-                    onClick={onClose}
-                    className="absolute -top-10 right-0 text-white hover:text-gray-300"
-                >
-                    <X className="w-6 h-6" />
-                </button>
-
-                {/* Body */}
-                <div className="px-6 py-6 space-y-6 text-sm">
-
+                {/* Body - Horizontal Layout */}
+                <div className="px-6 py-6 space-y-6">
                     {/* Seller Section */}
-                    <div className="flex items-center gap-3 mb-2">
+                    <div className="flex items-center gap-3">
                         <img
                             src={product.sellerProfilePic}
                             alt="seller"
                             className="w-10 h-10 rounded-full object-cover border border-gray-200"
                         />
-                        <div className="font-semibold text-gray-900">
-                            {product.seller}'s stores
+                        <div>
+                            <div className="font-semibold text-gray-900">
+                                {product.seller}'s stores
+                            </div>
+                            <div className="text-xs text-gray-500">
+                                {product.seller.toLowerCase().replace(/\s+/g, '')}@gmail.com
+                            </div>
                         </div>
                     </div>
 
-                    {/* Reporter */}
-                    <div className="flex">
-                        <div className="uppercase text-[11px] font-medium text-gray-500 w-1/3 pt-1">
-                            Reporter
-                        </div>
-                        <div className="w-2/3 flex items-center gap-2">
-                            <img
-                                src={product.reporterProfilePic}
-                                className="w-6 h-6 rounded-full"
-                                alt="reporter"
-                            />
-                            <span className="font-medium text-gray-900">{product.reporter}</span>
-                        </div>
-                    </div>
-
-                    {/* Product + Date Reported */}
-                    <div className="flex">
-                        <div className="uppercase text-[11px] font-medium text-gray-500 w-1/3 pt-1">
-                            Product
+                    <div className="grid grid-cols-3 gap-x-6 gap-y-6 text-sm">
+                        {/* Reporter */}
+                        <div>
+                            <div className="uppercase text-[11px] font-medium text-gray-500 mb-2">
+                                Reporter
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <img
+                                    src={product.reporterProfilePic}
+                                    className="w-6 h-6 rounded-full object-cover"
+                                    alt="reporter"
+                                />
+                                <span className="font-medium text-gray-900">{product.reporter}</span>
+                            </div>
                         </div>
 
-                        <div className="w-2/3 space-y-3">
+                        {/* Product */}
+                        <div>
+                            <div className="uppercase text-[11px] font-medium text-gray-500 mb-2">
+                                Product
+                            </div>
                             <div className="flex items-center gap-2">
                                 <img
                                     src={product.productImage}
                                     className="w-8 h-8 rounded object-cover"
                                     alt={product.name}
                                 />
-                                <span className="font-medium text-gray-900">{product.name}</span>
-                            </div>
-
-                            <div>
-                                <div className="uppercase text-[11px] font-medium text-gray-500">
-                                    Date Reported
+                                <div>
+                                    <div className="font-medium text-gray-900">{product.name}</div>
+                                    <div className="text-xs text-gray-500">{product.id}</div>
                                 </div>
-                                <div className="text-gray-900 mt-1">{product.date}</div>
+                            </div>
+                        </div>
+
+                        {/* Date Reported */}
+                        <div>
+                            <div className="uppercase text-[11px] font-medium text-gray-500 mb-2">
+                                Date Reported
+                            </div>
+                            <div className="text-gray-900">{product.date}</div>
+                        </div>
+
+                        {/* Report Field - spans full width */}
+                        <div className="col-span-3">
+                            <div className="uppercase text-[11px] font-medium text-gray-500 mb-2">
+                                Report
+                            </div>
+                            <div className="border border-gray-200 bg-gray-50 rounded-lg p-3 text-gray-800 text-sm leading-relaxed">
+                                {product.report}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+// --- Unresolved Product Modal (With Inspect Button) ---
+const UnresolvedProductModal: React.FC<ReportedProductModalProps> = ({ product, onClose }) => {
+    const router = useRouter();
+
+    const handleInspect = () => {
+        router.push(`/products/reported/${product.id}`);
+        onClose();
+    };
+
+    return (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className="relative bg-white rounded-lg shadow-xl w-[600px]">
+                {/* Header with Close Button Only */}
+                <div className="flex items-center justify-end px-6 py-4 border-b border-gray-200">
+                    <button
+                        onClick={onClose}
+                        className="text-gray-400 hover:text-gray-600"
+                    >
+                        <X className="w-5 h-5" />
+                    </button>
+                </div>
+
+                {/* Body - Horizontal Layout */}
+                <div className="px-6 py-6 space-y-6">
+                    {/* Seller Section */}
+                    <div className="flex items-center gap-3">
+                        <img
+                            src={product.sellerProfilePic}
+                            alt="seller"
+                            className="w-10 h-10 rounded-full object-cover border border-gray-200"
+                        />
+                        <div>
+                            <div className="font-semibold text-gray-900">
+                                {product.seller}'s stores
+                            </div>
+                            <div className="text-xs text-gray-500">
+                                {product.seller.toLowerCase().replace(/\s+/g, '')}@gmail.com
                             </div>
                         </div>
                     </div>
 
-                    {/* Report Field */}
-                    <div>
-                        <div className="uppercase text-[11px] font-medium text-gray-500 mb-1">
-                            Report
+                    <div className="grid grid-cols-3 gap-x-6 gap-y-6 text-sm">
+                        {/* Reporter */}
+                        <div>
+                            <div className="uppercase text-[11px] font-medium text-gray-500 mb-2">
+                                Reporter
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <img
+                                    src={product.reporterProfilePic}
+                                    className="w-6 h-6 rounded-full object-cover"
+                                    alt="reporter"
+                                />
+                                <span className="font-medium text-gray-900">{product.reporter}</span>
+                            </div>
                         </div>
 
-                        <div className="border border-gray-200 bg-gray-50 rounded-lg p-3 text-gray-800 text-sm leading-relaxed">
-                            {product.report}
+                        {/* Product */}
+                        <div>
+                            <div className="uppercase text-[11px] font-medium text-gray-500 mb-2">
+                                Product
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <img
+                                    src={product.productImage}
+                                    className="w-8 h-8 rounded object-cover"
+                                    alt={product.name}
+                                />
+                                <div>
+                                    <div className="font-medium text-gray-900">{product.name}</div>
+                                    <div className="text-xs text-gray-500">{product.id}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Date Reported */}
+                        <div>
+                            <div className="uppercase text-[11px] font-medium text-gray-500 mb-2">
+                                Date Reported
+                            </div>
+                            <div className="text-gray-900">{product.date}</div>
+                        </div>
+
+                        {/* Report Field - spans full width */}
+                        <div className="col-span-3">
+                            <div className="uppercase text-[11px] font-medium text-gray-500 mb-2">
+                                Report
+                            </div>
+                            <div className="border border-gray-200 bg-gray-50 rounded-lg p-3 text-gray-800 text-sm leading-relaxed">
+                                {product.report}
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Footer Button */}
+                {/* Footer Button - Only for Unresolved */}
                 <div className="px-6 pb-6">
                     <button
                         onClick={handleInspect}
@@ -141,20 +236,12 @@ const ReportedProductModal: React.FC<ReportedProductModalProps> = ({ product, on
                         Inspect Product
                     </button>
                 </div>
-
             </div>
         </div>
     );
 };
 
-export default ReportedProductModal;
-
-
-// --- End Updated Component: ReportedProductModal ---
-
-// (ReportedActionsDropdown and getStatusColor remain the same as previous response, 
-// but ensure ReportedActionsDropdown uses the updated interface when passed props)
-
+// --- Actions Dropdown ---
 interface DropdownProps {
     product: ReportedProduct;
     onClose: () => void;
@@ -192,7 +279,7 @@ const ReportedActionsDropdown: React.FC<DropdownProps> = ({ product, onClose, on
   );
 };
 
-
+// --- Main Component ---
 export const ReportedContent: React.FC<ReportedContentProps> = ({ 
   searchQuery, 
   setSearchQuery, 
@@ -215,7 +302,6 @@ export const ReportedContent: React.FC<ReportedContentProps> = ({
   return (
     <div className="bg-white rounded-b-lg shadow-sm">
       {/* Search Bar */}
-      {/* ... (Search and Filters code remains the same) */}
       <div className="flex items-center justify-between gap-4 px-6 py-4 border-b border-gray-200">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
@@ -232,7 +318,6 @@ export const ReportedContent: React.FC<ReportedContentProps> = ({
           <span className="text-sm font-medium">Filters</span>
         </button>
       </div>
-
 
       {/* Table */}
       <div className="overflow-hidden">
@@ -324,8 +409,7 @@ export const ReportedContent: React.FC<ReportedContentProps> = ({
           </tbody>
         </table>
 
-       
-        {/* ... (Pagination code remains the same) */}
+        {/* Pagination */}
         <div className="px-6 py-4 border-t border-gray-200 grid grid-cols-3 items-center">
           <div className="text-sm text-gray-700">
             Page {currentPage} of {totalPages}
@@ -365,12 +449,19 @@ export const ReportedContent: React.FC<ReportedContentProps> = ({
         </div>
       </div>
 
-      {/* Product Modal - Only render if a product is selected */}
+      {/* Product Modal - Show different modal based on status */}
       {selectedProduct && (
-        <ReportedProductModal 
-          product={selectedProduct} 
-          onClose={handleCloseModal} 
-        />
+        selectedProduct.status === 'Resolved' ? (
+          <ResolvedProductModal 
+            product={selectedProduct} 
+            onClose={handleCloseModal} 
+          />
+        ) : (
+          <UnresolvedProductModal 
+            product={selectedProduct} 
+            onClose={handleCloseModal} 
+          />
+        )
       )}
     </div>
   );
