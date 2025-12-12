@@ -1,17 +1,14 @@
-// This component displays the list of roles and their permissions.
-
+// AdminRoles.tsx
 import { useState } from "react";
-import AddRoleModal from "./AddRoleModal"; // Import the new modal
+import AddRoleModal from "./AddRoleModal";
+import EditRoleModal from "./EditRoleModal";
+import { Pencil, Trash2 } from "lucide-react";
 
-// =======================
-// Role Type
-// =======================
 interface Role {
   title: string;
-  permissions: string[]; // e.g., "KYC approval", "Edit user", "Create Admin"
+  permissions: string[];
 }
 
-// Dummy data based on the Figma image
 const DUMMY_ROLES: Role[] = [
   {
     title: "Super Admin",
@@ -21,6 +18,9 @@ const DUMMY_ROLES: Role[] = [
       "Create Admin",
       "Remove Admins",
       "Create Roles",
+      "Read Products",
+      "Delete Products",
+      "Approve Products",
       "Suspend Customer",
     ],
   },
@@ -31,12 +31,21 @@ const DUMMY_ROLES: Role[] = [
       "Edit User",
       "Create Admin",
       "Remove Admins",
+      "Create Roles",
+      "Read Products",
+      "Delete Products",
+      "Approve Products",
       "Suspend Customer",
     ],
   },
   {
     title: "Compliance",
     permissions: [
+      "KYC approval",
+      "Edit User",
+      "Create Admin",
+      "Remove Admins",
+      "Create Roles",
       "Read Products",
       "Delete Products",
       "Approve Products",
@@ -45,35 +54,46 @@ const DUMMY_ROLES: Role[] = [
   },
   {
     title: "Customer Support",
-    permissions: ["KYC approval", "Edit User", "Suspend Customer"],
+    permissions: [
+      "KYC approval",
+      "Edit User",
+      "Create Admin",
+      "Remove Admins",
+      "Create Roles",
+      "Read Products",
+      "Delete Products",
+      "Approve Products",
+      "Suspend Customer",
+    ],
   },
   {
     title: "Reviewer",
     permissions: [
       "KYC approval",
       "Edit User",
+      "Create Admin",
       "Remove Admins",
+      "Create Roles",
+      "Read Products",
+      "Delete Products",
+      "Approve Products",
       "Suspend Customer",
     ],
   },
 ];
 
-// =======================
-// PermissionsPill Component
-// =======================
 const PermissionsPill = ({ text }: { text: string }) => (
   <span className="inline-block bg-gray-100 text-gray-800 text-xs font-medium px-3 py-1 rounded-full mr-2 mb-1">
     {text}
   </span>
 );
 
-// =======================
-// AdminRoles Main Component
-// =======================
 export default function AdminRoles() {
   const [roles] = useState<Role[]>(DUMMY_ROLES);
   const [searchTerm, setSearchTerm] = useState("");
-  const [showAddRoleModal, setShowAddRoleModal] = useState(false); // New state for modal
+  const [showAddRoleModal, setShowAddRoleModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [roleToEdit, setRoleToEdit] = useState<Role | null>(null);
 
   const filteredRoles = roles.filter((role) =>
     role.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -81,22 +101,20 @@ export default function AdminRoles() {
 
   const handleAddRole = (data: { title: string; permissions: string[] }) => {
     console.log("New Role Added:", data);
-    // In a real app, you would add logic to update the roles state/API here.
   };
 
   return (
     <div>
       {/* Header with Search and Add Role Button */}
-      {/* FIXED PADDING: px-6 pb-4 pt-0 aligns the search bar correctly below the tab border */}
-      <div className="flex justify-between items-center px-6 pb-4">
+      <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center px-4 sm:px-6 pb-4 gap-3">
         {/* Search */}
-        <div className="relative w-full max-w-xs">
+        <div className="relative w-full sm:max-w-xs">
           <input
             type="text"
             placeholder="Search"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 pr-4 py-2 w-full bg-gray-100 rounded-lg focus:ring-primaryGreen-500 focus:outline-none focus:border-primaryGreen-500 border border-transparent"
+            className="pl-10 pr-4 py-2 w-full bg-gray-100 rounded-lg focus:ring-primaryGreen-500 focus:outline-none border border-transparent text-sm"
           />
           <svg
             className="h-5 w-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"
@@ -113,8 +131,8 @@ export default function AdminRoles() {
 
         {/* Add Role */}
         <button
-          onClick={() => setShowAddRoleModal(true)} // Toggle modal
-          className="bg-primaryGreen-500 text-white px-4 py-2 rounded-lg flex items-center shadow-md text-sm font-medium hover:bg-primaryGreen-600 transition duration-150"
+          onClick={() => setShowAddRoleModal(true)}
+          className="bg-primaryGreen-500 text-white px-4 py-2 rounded-lg flex items-center justify-center shadow-md text-sm font-medium hover:bg-primaryGreen-600 transition"
         >
           <svg className="h-5 w-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
             <path
@@ -127,8 +145,8 @@ export default function AdminRoles() {
         </button>
       </div>
 
-      {/* Roles Table */}
-      <div className="overflow-x-auto px-6 pb-6">
+      {/* Desktop Table View */}
+      <div className="hidden md:block overflow-x-auto px-4 sm:px-6 pb-6">
         <div className="border border-gray-200 rounded-lg">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
@@ -144,15 +162,14 @@ export default function AdminRoles() {
                 </th>
               </tr>
             </thead>
+
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredRoles.map((role) => (
                 <tr key={role.title}>
-                  {/* Title */}
                   <td className="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
                     {role.title}
                   </td>
 
-                  {/* Permissions */}
                   <td className="px-6 py-4 text-sm text-gray-500">
                     <div className="flex flex-wrap">
                       {role.permissions.map((p, index) => (
@@ -161,14 +178,22 @@ export default function AdminRoles() {
                     </div>
                   </td>
 
-                  {/* Action */}
                   <td className="px-6 py-4 text-right text-sm font-medium whitespace-nowrap">
-                    <button className="text-primaryGreen-600 hover:text-primaryGreen-900 mr-4">
-                      Edit
-                    </button>
-                    <button className="text-error-600 hover:text-error-900">
-                      Delete
-                    </button>
+                    <div className="flex justify-end gap-4">
+                      <button
+                        className="text-primaryGreen-600 hover:text-primaryGreen-900"
+                        onClick={() => {
+                          setRoleToEdit(role);
+                          setShowEditModal(true);
+                        }}
+                      >
+                        <Pencil className="w-5 h-5" />
+                      </button>
+
+                      <button className="text-error-600 hover:text-error-900">
+                        <Trash2 className="w-5 h-5" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -177,8 +202,40 @@ export default function AdminRoles() {
         </div>
       </div>
 
+      {/* Mobile Card View */}
+      <div className="md:hidden px-4 pb-6 space-y-4">
+        {filteredRoles.map((role) => (
+          <div key={role.title} className="bg-white border border-gray-200 rounded-lg p-4">
+            <div className="flex justify-between items-start mb-3">
+              <h3 className="text-base font-semibold text-gray-900">{role.title}</h3>
+              <div className="flex gap-3">
+                <button
+                  className="text-primaryGreen-600 hover:text-primaryGreen-900"
+                  onClick={() => {
+                    setRoleToEdit(role);
+                    setShowEditModal(true);
+                  }}
+                >
+                  <Pencil className="w-5 h-5" />
+                </button>
+                <button className="text-error-600 hover:text-error-900">
+                  <Trash2 className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+            <div className="text-xs text-gray-500 mb-2">Permissions</div>
+            <div className="flex flex-wrap">
+              {role.permissions.map((p, index) => (
+                <PermissionsPill key={index} text={p} />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* No Results */}
       {filteredRoles.length === 0 && (
-        <p className="mt-4 p-4 text-center text-gray-500 bg-gray-50 rounded-lg mx-6 mb-6">
+        <p className="mt-4 p-4 text-center text-gray-500 bg-gray-50 rounded-lg mx-4 sm:mx-6 mb-6 text-sm">
           No roles match your search term.
         </p>
       )}
@@ -188,6 +245,17 @@ export default function AdminRoles() {
         <AddRoleModal
           onClose={() => setShowAddRoleModal(false)}
           onSubmit={handleAddRole}
+        />
+      )}
+
+      {/* Edit Role Modal */}
+      {showEditModal && roleToEdit && (
+        <EditRoleModal
+          role={roleToEdit}
+          onClose={() => setShowEditModal(false)}
+          onSubmit={(data) => {
+            console.log("Edited role:", data);
+          }}
         />
       )}
     </div>

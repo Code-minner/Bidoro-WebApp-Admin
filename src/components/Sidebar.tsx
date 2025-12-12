@@ -98,7 +98,6 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
   return (
     <>
-      {/* Mobile Overlay */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
@@ -106,7 +105,6 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         />
       )}
 
-      {/* Sidebar */}
       <aside
         className={`
           fixed lg:static inset-y-0 left-0 z-50
@@ -116,10 +114,8 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
         `}
       >
-        {/* Header with Logo and Close Button */}
         <div className="p-6 flex items-center justify-between">
           <Logo width="125" height="30" />
-          {/* Close button - only visible on mobile */}
           <button
             onClick={onClose}
             className="lg:hidden p-2 hover:bg-[#F6F5FA] rounded-lg transition-colors"
@@ -128,7 +124,6 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           </button>
         </div>
 
-        {/* Navigation Menu */}
         <nav className="flex-1 overflow-y-auto py-4">
           <ul className="space-y-1 px-3">
             {menuItems.map((item) => {
@@ -138,7 +133,6 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
               return (
                 <li key={item.label}>
-                  {/* Main Menu Item */}
                   <Link
                     href={item.href}
                     onClick={(e) => {
@@ -146,7 +140,6 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                         e.preventDefault();
                         toggleExpand(item.label);
                       } else {
-                        // Close sidebar on mobile when clicking a link
                         onClose();
                       }
                     }}
@@ -162,39 +155,37 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                       </span>
                       <span className="text-sm font-medium">{item.label}</span>
                     </div>
-                    {hasSubItems && (
-                      <span>
-                        {expanded ? (
-                          <ChevronDown className="w-4 h-4" />
-                        ) : (
-                          <ChevronRight className="w-4 h-4" />
-                        )}
-                      </span>
-                    )}
+                    {hasSubItems &&
+                      (expanded ? (
+                        <ChevronDown className="w-4 h-4" />
+                      ) : (
+                        <ChevronRight className="w-4 h-4" />
+                      ))}
                   </Link>
 
-                  {/* Sub Items */}
                   {hasSubItems && expanded && (
-                    <ul className="ml-11 mt-1 space-y-1">
-                      {item.subItems?.map((subItem) => {
-                        const subActive = isActive(subItem.href);
-                        return (
-                          <li key={subItem.label}>
-                            <Link
-                              href={subItem.href}
-                              onClick={onClose}
-                              className={`block px-4 py-2 text-sm rounded-lg transition-colors ${
-                                subActive
-                                  ? "bg-[#15340B] text-white"
-                                  : "text-[#6C6C6C] hover:bg-[#F6F5FA] hover:text-[#242424]"
-                              }`}
-                            >
-                              {subItem.label}
-                            </Link>
-                          </li>
-                        );
-                      })}
-                    </ul>
+                    <div className="ml-6 mt-1 pl-4 border-l border-gray-300">
+                      <ul className="space-y-1">
+                        {item.subItems?.map((subItem) => {
+                          const subActive = isActive(subItem.href);
+                          return (
+                            <li key={subItem.label}>
+                              <Link
+                                href={subItem.href}
+                                onClick={onClose}
+                                className={`block px-4 py-2 text-sm rounded-lg transition-colors ${
+                                  subActive
+                                    ? "text-[#242424] font-semibold"
+                                    : "text-[#6C6C6C] hover:text-[#242424]"
+                                }`}
+                              >
+                                {subItem.label}
+                              </Link>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
                   )}
                 </li>
               );
@@ -202,11 +193,9 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           </ul>
         </nav>
 
-        {/* Logout Button */}
         <div className="p-4 border-t border-[#E9E9E9]">
           <button
             onClick={() => {
-              // Add logout logic here
               console.log("Logging out...");
               onClose();
             }}
