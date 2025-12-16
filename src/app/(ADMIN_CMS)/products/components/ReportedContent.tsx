@@ -44,37 +44,37 @@ interface ReportedProductModalProps {
 const ResolvedProductModal: React.FC<ReportedProductModalProps> = ({ product, onClose }) => {
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="relative bg-white rounded-lg shadow-xl w-[600px]">
+            <div className="relative bg-white rounded-lg shadow-xl w-full max-w-[600px] max-h-[90vh] overflow-y-auto">
                 {/* Header with Close Button Only */}
-                <div className="flex items-center justify-end px-6 py-4 border-b border-gray-200">
+                <div className="flex items-center justify-end px-4 sm:px-6 py-4 border-b border-gray-200 sticky top-0 bg-white z-10">
                     <button
                         onClick={onClose}
-                        className="text-gray-400 hover:text-gray-600"
+                        className="text-gray-400 hover:text-gray-600 p-1"
                     >
                         <X className="w-5 h-5" />
                     </button>
                 </div>
 
-                {/* Body - Horizontal Layout */}
-                <div className="px-6 py-6 space-y-6">
+                {/* Body - Responsive Layout */}
+                <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-4 sm:space-y-6">
                     {/* Seller Section */}
                     <div className="flex items-center gap-3">
                         <img
                             src={product.sellerProfilePic}
                             alt="seller"
-                            className="w-10 h-10 rounded-full object-cover border border-gray-200"
+                            className="w-10 h-10 rounded-full object-cover border border-gray-200 flex-shrink-0"
                         />
-                        <div>
-                            <div className="font-semibold text-gray-900">
+                        <div className="min-w-0">
+                            <div className="font-semibold text-gray-900 text-sm sm:text-base">
                                 {product.seller}'s stores
                             </div>
-                            <div className="text-xs text-gray-500">
+                            <div className="text-xs text-gray-500 break-all">
                                 {product.seller.toLowerCase().replace(/\s+/g, '')}@gmail.com
                             </div>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-3 gap-x-6 gap-y-6 text-sm">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-x-6 sm:gap-y-6 text-sm">
                         {/* Reporter */}
                         <div>
                             <div className="uppercase text-[11px] font-medium text-gray-500 mb-2">
@@ -83,7 +83,7 @@ const ResolvedProductModal: React.FC<ReportedProductModalProps> = ({ product, on
                             <div className="flex items-center gap-2">
                                 <img
                                     src={product.reporterProfilePic}
-                                    className="w-6 h-6 rounded-full object-cover"
+                                    className="w-6 h-6 rounded-full object-cover flex-shrink-0"
                                     alt="reporter"
                                 />
                                 <span className="font-medium text-gray-900">{product.reporter}</span>
@@ -98,11 +98,11 @@ const ResolvedProductModal: React.FC<ReportedProductModalProps> = ({ product, on
                             <div className="flex items-center gap-2">
                                 <img
                                     src={product.productImage}
-                                    className="w-8 h-8 rounded object-cover"
+                                    className="w-8 h-8 rounded object-cover flex-shrink-0"
                                     alt={product.name}
                                 />
-                                <div>
-                                    <div className="font-medium text-gray-900">{product.name}</div>
+                                <div className="min-w-0">
+                                    <div className="font-medium text-gray-900 truncate">{product.name}</div>
                                     <div className="text-xs text-gray-500">{product.id}</div>
                                 </div>
                             </div>
@@ -117,7 +117,7 @@ const ResolvedProductModal: React.FC<ReportedProductModalProps> = ({ product, on
                         </div>
 
                         {/* Report Field - spans full width */}
-                        <div className="col-span-3">
+                        <div className="col-span-1 sm:col-span-3">
                             <div className="uppercase text-[11px] font-medium text-gray-500 mb-2">
                                 Report
                             </div>
@@ -143,37 +143,37 @@ const UnresolvedProductModal: React.FC<ReportedProductModalProps> = ({ product, 
 
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="relative bg-white rounded-lg shadow-xl w-[600px]">
+            <div className="relative bg-white rounded-lg shadow-xl w-full max-w-[600px] max-h-[90vh] overflow-y-auto">
                 {/* Header with Close Button Only */}
-                <div className="flex items-center justify-end px-6 py-4 border-b border-gray-200">
+                <div className="flex items-center justify-end px-4 sm:px-6 py-4 border-b border-gray-200 sticky top-0 bg-white z-10">
                     <button
                         onClick={onClose}
-                        className="text-gray-400 hover:text-gray-600"
+                        className="text-gray-400 hover:text-gray-600 p-1"
                     >
                         <X className="w-5 h-5" />
                     </button>
                 </div>
 
-                {/* Body - Horizontal Layout */}
-                <div className="px-6 py-6 space-y-6">
+                {/* Body - Responsive Layout */}
+                <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-4 sm:space-y-6">
                     {/* Seller Section */}
                     <div className="flex items-center gap-3">
                         <img
                             src={product.sellerProfilePic}
                             alt="seller"
-                            className="w-10 h-10 rounded-full object-cover border border-gray-200"
+                            className="w-10 h-10 rounded-full object-cover border border-gray-200 flex-shrink-0"
                         />
-                        <div>
-                            <div className="font-semibold text-gray-900">
+                        <div className="min-w-0">
+                            <div className="font-semibold text-gray-900 text-sm sm:text-base">
                                 {product.seller}'s stores
                             </div>
-                            <div className="text-xs text-gray-500">
+                            <div className="text-xs text-gray-500 break-all">
                                 {product.seller.toLowerCase().replace(/\s+/g, '')}@gmail.com
                             </div>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-3 gap-x-6 gap-y-6 text-sm">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-x-6 sm:gap-y-6 text-sm">
                         {/* Reporter */}
                         <div>
                             <div className="uppercase text-[11px] font-medium text-gray-500 mb-2">
@@ -182,7 +182,7 @@ const UnresolvedProductModal: React.FC<ReportedProductModalProps> = ({ product, 
                             <div className="flex items-center gap-2">
                                 <img
                                     src={product.reporterProfilePic}
-                                    className="w-6 h-6 rounded-full object-cover"
+                                    className="w-6 h-6 rounded-full object-cover flex-shrink-0"
                                     alt="reporter"
                                 />
                                 <span className="font-medium text-gray-900">{product.reporter}</span>
@@ -197,11 +197,11 @@ const UnresolvedProductModal: React.FC<ReportedProductModalProps> = ({ product, 
                             <div className="flex items-center gap-2">
                                 <img
                                     src={product.productImage}
-                                    className="w-8 h-8 rounded object-cover"
+                                    className="w-8 h-8 rounded object-cover flex-shrink-0"
                                     alt={product.name}
                                 />
-                                <div>
-                                    <div className="font-medium text-gray-900">{product.name}</div>
+                                <div className="min-w-0">
+                                    <div className="font-medium text-gray-900 truncate">{product.name}</div>
                                     <div className="text-xs text-gray-500">{product.id}</div>
                                 </div>
                             </div>
@@ -216,7 +216,7 @@ const UnresolvedProductModal: React.FC<ReportedProductModalProps> = ({ product, 
                         </div>
 
                         {/* Report Field - spans full width */}
-                        <div className="col-span-3">
+                        <div className="col-span-1 sm:col-span-3">
                             <div className="uppercase text-[11px] font-medium text-gray-500 mb-2">
                                 Report
                             </div>
@@ -228,10 +228,10 @@ const UnresolvedProductModal: React.FC<ReportedProductModalProps> = ({ product, 
                 </div>
 
                 {/* Footer Button - Only for Unresolved */}
-                <div className="px-6 pb-6">
+                <div className="px-4 sm:px-6 pb-4 sm:pb-6">
                     <button
                         onClick={handleInspect}
-                        className="w-full bg-[#15340B] text-white py-3 rounded-md font-medium hover:bg-[#0f2908] transition"
+                        className="w-full bg-[#15340B] text-white py-3 rounded-md font-medium hover:bg-[#0f2908] transition text-sm sm:text-base"
                     >
                         Inspect Product
                     </button>
@@ -302,25 +302,25 @@ export const ReportedContent: React.FC<ReportedContentProps> = ({
   return (
     <div className="bg-white rounded-b-lg shadow-sm">
       {/* Search Bar */}
-      <div className="flex items-center justify-between gap-4 px-6 py-4 border-b border-gray-200">
-        <div className="relative flex-1 max-w-md">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4 px-4 sm:px-6 py-4 border-b border-gray-200">
+        <div className="relative flex-1 max-w-full sm:max-w-md">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
           <input
             type="text"
             placeholder="Search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border rounded-lg bg-gray-100 focus:bg-white focus:border-black focus:outline-none"
+            className="w-full pl-10 pr-4 py-2.5 sm:py-2 border rounded-lg bg-gray-100 focus:bg-white focus:border-black focus:outline-none text-sm"
           />
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-50">
+        <button className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 sm:py-2 border rounded-lg hover:bg-gray-50 transition-colors">
           <Filter className="w-4 h-4" />
           <span className="text-sm font-medium">Filters</span>
         </button>
       </div>
 
-      {/* Table */}
-      <div className="overflow-hidden">
+      {/* Desktop Table View */}
+      <div className="hidden lg:block overflow-x-auto">
         <table className="w-full">
           <thead>
             <tr>
@@ -385,7 +385,7 @@ export const ReportedContent: React.FC<ReportedContentProps> = ({
                   <div className="relative">
                     <button 
                       onClick={() => setOpenDropdown(openDropdown === index ? null : index)}
-                      className="text-gray-400 hover:text-gray-600"
+                      className="text-gray-400 hover:text-gray-600 p-1"
                     >
                       <MoreVertical className="w-5 h-5" />
                     </button>
@@ -408,44 +408,124 @@ export const ReportedContent: React.FC<ReportedContentProps> = ({
             ))}
           </tbody>
         </table>
+      </div>
 
-        {/* Pagination */}
-        <div className="px-6 py-4 border-t border-gray-200 grid grid-cols-3 items-center">
-          <div className="text-sm text-gray-700">
-            Page {currentPage} of {totalPages}
-          </div>
-
-          <div className="flex items-center justify-center gap-2">
-            {[1, 2, 3, '...', 10, 11, 12].map((page, index) => (
-              <button
-                key={index}
-                onClick={() => typeof page === 'number' && setCurrentPage(page)}
-                disabled={page === '...'}
-                className={`px-3 py-1 rounded text-sm ${
-                  page === '...' ? 'cursor-default' : 'hover:bg-gray-100'
-                } ${page === currentPage ? 'border border-gray-900 text-gray-900 font-medium' : 'text-gray-700'}`}
-              >
-                {page}
-              </button>
-            ))}
-          </div>
-
-          <div className="flex items-center justify-end gap-2">
-            <button
-              onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-              disabled={currentPage === 1}
-              className="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+      {/* Mobile Card View */}
+      <div className="lg:hidden px-4 py-4">
+        <div className="space-y-3">
+          {products.map((product, index) => (
+            <div
+              key={index}
+              className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
             >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
+              {/* Header with Product Image and Actions */}
+              <div className="flex items-start gap-3 mb-3">
+                <img
+                  src={product.productImage}
+                  alt={product.name}
+                  className="h-14 w-14 rounded object-cover flex-shrink-0"
+                />
+                
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-medium text-gray-900 text-sm truncate">
+                    {product.name}
+                  </h3>
+                  <p className="text-xs text-gray-500 mt-0.5">{product.id}</p>
+                </div>
+
+                {/* Actions Dropdown */}
+                <div className="relative flex-shrink-0">
+                  <button 
+                    onClick={() => setOpenDropdown(openDropdown === index ? null : index)}
+                    className="p-2 hover:bg-gray-50 rounded-lg transition-colors"
+                  >
+                    <MoreVertical className="w-4 h-4 text-gray-400" />
+                  </button>
+                  {openDropdown === index && (
+                    <>
+                      <div 
+                        className="fixed inset-0 z-10" 
+                        onClick={() => setOpenDropdown(null)}
+                      ></div>
+                      <ReportedActionsDropdown 
+                        product={product}
+                        onClose={() => setOpenDropdown(null)} 
+                        onView={handleViewProduct}
+                      />
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* Product Details */}
+              <div className="space-y-2 text-xs mb-3">
+                <div className="flex">
+                  <span className="text-gray-500 w-24 flex-shrink-0">Seller:</span>
+                  <span className="text-gray-900 truncate">{product.seller}</span>
+                </div>
+                <div className="flex">
+                  <span className="text-gray-500 w-24 flex-shrink-0">Reporter:</span>
+                  <span className="text-gray-900 truncate">{product.reporter}</span>
+                </div>
+                <div className="flex">
+                  <span className="text-gray-500 w-24 flex-shrink-0">Report:</span>
+                  <span className="text-gray-900 line-clamp-2">{product.report}</span>
+                </div>
+                <div className="flex">
+                  <span className="text-gray-500 w-24 flex-shrink-0">Date:</span>
+                  <span className="text-gray-900">{product.date}</span>
+                </div>
+              </div>
+
+              {/* Status Badge */}
+              <div>
+                <span className={`px-3 py-1 inline-flex text-xs leading-5 font-medium rounded-full ${getStatusColor(product.status)}`}>
+                  {product.status}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Pagination */}
+      <div className="px-4 sm:px-6 py-4 border-t border-gray-200 flex flex-col sm:grid sm:grid-cols-3 items-center gap-4">
+        <div className="text-sm text-gray-700 text-center sm:text-left order-1">
+          Page {currentPage} of {totalPages}
+        </div>
+
+        <div className="flex items-center justify-center gap-1 sm:gap-2 overflow-x-auto order-3 sm:order-2 w-full sm:w-auto">
+          {[1, 2, 3, '...', 10, 11, 12].map((page, index) => (
             <button
-              onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-              disabled={currentPage === totalPages}
-              className="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+              key={index}
+              onClick={() => typeof page === 'number' && setCurrentPage(page)}
+              disabled={page === '...'}
+              className={`px-2 sm:px-3 py-1 rounded text-sm flex-shrink-0 ${
+                page === '...' ? 'cursor-default' : 'hover:bg-gray-100'
+              } ${page === currentPage ? 'border border-gray-900 text-gray-900 font-medium' : 'text-gray-700'}`}
             >
-              <ChevronRight className="w-5 h-5" />
+              {page}
             </button>
-          </div>
+          ))}
+        </div>
+
+        <div className="flex items-center justify-center sm:justify-end gap-2 order-2 sm:order-3">
+          <button
+            onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+            disabled={currentPage === 1}
+            className="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            aria-label="Previous page"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <button
+            onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+            disabled={currentPage === totalPages}
+            className="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            aria-label="Next page"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
         </div>
       </div>
 

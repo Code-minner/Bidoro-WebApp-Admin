@@ -98,7 +98,7 @@ export default function SellerTable({ sellers }: SellerTableProps) {
         <div className="p-4 sm:p-6 flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-center sm:justify-between">
 
           {/* Search */}
-          <div className="relative flex-1 max-w-md">
+          <div className="relative flex-1 max-w-full sm:max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6C6C6C]" />
             <input
               type="text"
@@ -110,20 +110,20 @@ export default function SellerTable({ sellers }: SellerTableProps) {
           </div>
 
           {/* Filter dropdown */}
-          <div className="relative" ref={filterRef}>
+          <div className="relative w-full sm:w-auto" ref={filterRef}>
             <button
               onClick={() => {
                 setIsFilterOpen(!isFilterOpen);
                 setOpenDropdownId(null);
               }}
-              className="flex items-center gap-2 px-4 py-2 border border-[#E9E9E9] rounded-lg hover:bg-[#F6F5FA] transition-colors text-sm"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 border border-[#E9E9E9] rounded-lg hover:bg-[#F6F5FA] transition-colors text-sm"
             >
               <SlidersHorizontal className="w-4 h-4" />
               <span>Filters</span>
             </button>
 
             {isFilterOpen && (
-              <div className="absolute right-0 top-12 w-72 bg-white rounded-lg border border-[#E9E9E9] shadow-md p-4 z-40">
+              <div className="absolute right-0 top-12 w-full sm:w-72 bg-white rounded-lg border border-[#E9E9E9] shadow-md p-4 z-40">
                 {/* Filter Content */}
                 <p className="text-sm font-medium mb-3">Filters</p>
 
@@ -225,8 +225,8 @@ export default function SellerTable({ sellers }: SellerTableProps) {
           </div>
         </div>
 
-        {/* Table */}
-        <div className="overflow-x-auto">
+        {/* Desktop Table View */}
+        <div className="hidden lg:block overflow-x-auto">
           <table className="w-full">
             <thead className="border-b border-[#E9E9E9]">
               <tr>
@@ -353,11 +353,122 @@ export default function SellerTable({ sellers }: SellerTableProps) {
           </table>
         </div>
 
+        {/* Mobile Card View */}
+        <div className="lg:hidden px-4 pb-4">
+          <div className="space-y-3">
+            {sellers.map((seller) => (
+              <div
+                key={seller.id}
+                className="bg-white border border-[#E9E9E9] rounded-lg p-4 hover:shadow-md transition-shadow"
+              >
+                {/* Header with Avatar, Name, and Actions */}
+                <div className="flex items-start gap-3 mb-3">
+                  <div className="w-12 h-12 rounded-full bg-[#E9E9E9] flex items-center justify-center overflow-hidden flex-shrink-0">
+                    {seller.avatar ? (
+                      <Image
+                        src={seller.avatar}
+                        alt={seller.name}
+                        width={48}
+                        height={48}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-sm font-medium text-[#6C6C6C]">
+                        {seller.name.split(" ").map((n) => n[0]).join("")}
+                      </span>
+                    )}
+                  </div>
+                  
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-[#242424] text-sm truncate">
+                      {seller.name}
+                    </h3>
+                    <p className="text-xs text-[#6C6C6C] truncate">{seller.email}</p>
+                  </div>
+
+                  {/* Actions Dropdown */}
+                  <div className="relative">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setOpenDropdownId(openDropdownId === seller.id ? null : seller.id);
+                      }}
+                      className="p-2 hover:bg-[#F6F5FA] rounded-lg transition-colors"
+                    >
+                      <MoreVertical className="w-4 h-4 text-[#6C6C6C]" />
+                    </button>
+
+                    {openDropdownId === seller.id && (
+                      <div 
+                        data-dropdown-menu
+                        className="absolute right-0 mt-2 w-40 bg-white border border-[#E9E9E9] rounded-lg shadow-lg z-50 py-1"
+                      >
+                        <button 
+                            onClick={(e) => handleViewProfile(e, seller.id)}
+                            className="w-full text-left px-4 py-2 text-sm hover:bg-[#F6F5FA] text-[#242424]"
+                        >
+                          View profile
+                        </button>
+                        
+                        <button 
+                            onClick={(e) => e.stopPropagation()}
+                            className="w-full text-left px-4 py-2 text-sm hover:bg-[#F6F5FA] text-[#242424]"
+                        >
+                          Approve
+                        </button>
+                        <button 
+                            onClick={(e) => handleSuspendClick(e, seller)}
+                            className="w-full text-left px-4 py-2 text-sm hover:bg-[#F6F5FA] text-[#6C6C6C]"
+                        >
+                          Decline
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Details Grid */}
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div>
+                    <span className="text-[#6C6C6C]">Reg. date:</span>
+                    <span className="ml-1 text-[#242424]">{seller.regDate}</span>
+                  </div>
+                  <div>
+                    <span className="text-[#6C6C6C]">Products:</span>
+                    <span className="ml-1 text-[#242424] font-medium">{seller.products || 0}</span>
+                  </div>
+                  <div>
+                    <span className="text-[#6C6C6C]">Phone:</span>
+                    <span className="ml-1 text-[#242424]">{seller.phoneNumber}</span>
+                  </div>
+                  <div>
+                    <span className="text-[#6C6C6C]">Location:</span>
+                    <span className="ml-1 text-[#242424]">{seller.location || "-"}</span>
+                  </div>
+                </div>
+
+                {/* Status Badge */}
+                <div className="mt-3">
+                  <span
+                    className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                      seller.status === "Active"
+                        ? "bg-success-50 text-success-700"
+                        : "bg-error-50 text-error-700"
+                    }`}
+                  >
+                    {seller.status}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Pagination */}
-        <div className="px-6 py-4 border-t border-[#E9E9E9] flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="px-4 sm:px-6 py-4 border-t border-[#E9E9E9] flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-sm text-[#6C6C6C]">Page 1 of 30</div>
 
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 overflow-x-auto">
             <button className="w-8 h-8 flex items-center justify-center border rounded-lg text-[#6C6C6C]">
               1
             </button>

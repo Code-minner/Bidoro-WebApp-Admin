@@ -1,9 +1,7 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import { ChevronRight, Edit, CheckCircle } from "lucide-react";
-import AdminHeader from "../../../../components/AdminHeader"; // cleaned path
 
 // --- Mock Data ---
 const orderData = {
@@ -68,18 +66,20 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
   return (
     <div className="min-h-screen bg-gray-50">
 
-      {/* ⭐ FULL-WIDTH HEADER */}
-      <AdminHeader />
+      {/* ⭐ FULL-WIDTH HEADER - Note: AdminHeader component removed for demo */}
+      <div className="bg-white border-b border-grayScale-50 p-4 md:p-6">
+        <h1 className="text-xl font-bold">Admin Header</h1>
+      </div>
 
       {/* PAGE CONTENT (padded separately) */}
-      <div className="p-6 md:p-8">
+      <div className="p-4 sm:p-6 md:p-8">
 
         {/* Breadcrumbs */}
         <div className="flex justify-between items-center mb-6 mt-6">
           <div className="flex items-center text-sm text-grayScale-500">
-            <Link href="/orders" className="hover:text-primaryGreen-500 transition-colors">
+            <a href="/orders" className="hover:text-primaryGreen-500 transition-colors">
               Orders
-            </Link>
+            </a>
             <ChevronRight size={16} className="mx-2" />
             <span className="font-medium text-grayScale-900">Order Details</span>
           </div>
@@ -90,13 +90,13 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
           {/* CONTAINER 1 */}
           <Card className="p-0">
 
-            <div className="flex p-6 pb-4 relative">
+            <div className="flex flex-col md:flex-row p-4 sm:p-6 pb-4 relative">
 
-              <div className="absolute top-6 right-6">
+              <div className="absolute top-4 sm:top-6 right-4 sm:right-6">
                 <Badge status={orderData.status} />
               </div>
 
-              <div className="w-1/3 pr-6 mr-6">
+              <div className="w-full md:w-1/3 md:pr-6 md:mr-6 mb-6 md:mb-0">
                 <h2 className="text-lg font-bold text-grayScale-900 mb-4">
                   Order ID: {orderData.id}
                 </h2>
@@ -107,11 +107,11 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
                 </div>
               </div>
 
-              <div className="w-2/3 pl-6">
+              <div className="w-full md:w-2/3 md:pl-6">
                 <p className="text-sm font-bold text-primaryGreen-500 mb-4">
                   {orderData.vendor}
                 </p>
-                <div className="grid grid-cols-3 gap-y-4 text-sm">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-y-4 text-sm">
                   <div className="col-span-1 space-y-1">
                     <p className="text-grayScale-500">Name</p>
                     <p className="text-grayScale-800 font-medium">
@@ -124,9 +124,9 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
                       {orderData.customer.contact}
                     </p>
                   </div>
-                  <div className="col-span-3 space-y-1">
+                  <div className="col-span-1 sm:col-span-3 space-y-1">
                     <p className="text-grayScale-500">Email</p>
-                    <p className="text-grayScale-800 font-medium">
+                    <p className="text-grayScale-800 font-medium break-words">
                       {orderData.customer.email}
                     </p>
                   </div>
@@ -135,10 +135,10 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
 
             </div>
 
-            <div className="p-6 pt-0">
-              <div className="bg-secondaryYellow-50 p-6 rounded-xl border border-secondaryYellow-200 shadow-sm w-full">
-                <div className="flex justify-between items-start">
-                  <div>
+            <div className="p-4 sm:p-6 pt-0">
+              <div className="bg-secondaryYellow-50 p-4 sm:p-6 rounded-xl border border-secondaryYellow-200 shadow-sm w-full">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+                  <div className="flex-1">
                     <p className="text-sm font-bold text-grayScale-900 mb-2">DELIVERY ADDRESS</p>
                     <p className="text-lg font-medium text-grayScale-900 mb-1">
                       {orderData.delivery.name}
@@ -146,7 +146,7 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
                     <p className="text-sm text-grayScale-700">{orderData.delivery.address}</p>
                   </div>
 
-                  <button className="flex items-center gap-1 text-sm font-medium text-primaryGreen-500 border border-primaryGreen-500 rounded-lg px-3 py-1 hover:bg-primaryGreen-50 transition-colors">
+                  <button className="flex items-center gap-1 text-sm font-medium text-primaryGreen-500 border border-primaryGreen-500 rounded-lg px-3 py-1 hover:bg-primaryGreen-50 transition-colors self-start">
                     <Edit size={16} />
                     Edit
                   </button>
@@ -157,13 +157,13 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
           </Card>
 
           {/* CONTAINER 2 */}
-          <Card className="p-6">
+          <Card className="p-4 sm:p-6">
 
             <h3 className="text-lg font-bold text-grayScale-900 mb-4">Products</h3>
 
             <div className="space-y-4 mb-8">
               {orderData.products.map((product, index) => (
-                <div key={index} className="flex justify-between items-center pb-4">
+                <div key={index} className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 pb-4">
                   <div className="flex items-center gap-4">
                     <img
                       src="/assets/Watch.png"
@@ -175,14 +175,14 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
                       <p className="text-sm text-grayScale-500">Qty: {product.qty}</p>
                     </div>
                   </div>
-                  <span className="font-bold text-grayScale-900">
+                  <span className="font-bold text-grayScale-900 sm:text-right">
                     ₦{product.price.toLocaleString()}
                   </span>
                 </div>
               ))}
             </div>
 
-            <div className="grid grid-cols-2 gap-6 pt-4 border-t">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t">
               <div>
                 <h3 className="text-lg font-bold text-grayScale-900 mb-4">Payment Details</h3>
                 <div className="space-y-1">
@@ -191,18 +191,18 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
                 </div>
               </div>
 
-              <div className="flex justify-end">
-                <div className="w-fit space-y-2 text-right">
+              <div className="flex justify-start md:justify-end">
+                <div className="w-fit space-y-2 text-left md:text-right">
 
                   {/* PAID STATUS */}
-                  <div className="flex justify-between gap-6 text-sm">
+                  <div className="flex justify-start md:justify-end gap-6 text-sm">
                     <span className="font-medium text-green-800 flex items-center gap-1">
                       <CheckCircle className="w-4 h-4 text-green-800" />
                       paid
                     </span>
                   </div>
 
-                  <div className="flex justify-between gap-6 text-sm">
+                  <div className="flex justify-start md:justify-end gap-6 text-sm">
                     <p className="text-base font-medium text-grayScale-800">
                       {orderData.payment.method}
                     </p>

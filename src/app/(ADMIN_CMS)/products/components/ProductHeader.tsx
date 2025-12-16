@@ -26,17 +26,17 @@ export const ProductHeader: React.FC = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold text-gray-900 mb-6">Products</h1>
+      <h1 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-4 sm:mb-6 px-1">Products</h1>
       
       {/* White Container with Tabs */}
       <div className="bg-white rounded-t-lg shadow-sm">
-        {/* Tabs */}
-        <div className="flex gap-6 border-b border-gray-200 px-6 pt-4">
+        {/* Tabs - Horizontal scroll on mobile */}
+        <div className="flex gap-4 sm:gap-6 border-b border-gray-200 px-4 sm:px-6 pt-3 sm:pt-4 overflow-x-auto scrollbar-hide">
           {tabs.map((tab) => (
             <Link
               key={tab.name}
               href={tab.href}
-              className={`pb-3 px-1 font-medium text-sm transition-colors relative ${
+              className={`pb-2 sm:pb-3 px-1 font-medium text-sm whitespace-nowrap transition-colors relative flex-shrink-0 ${
                 isActive(tab.href)
                   ? 'text-gray-900'
                   : 'text-gray-500 hover:text-gray-700'

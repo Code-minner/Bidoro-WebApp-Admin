@@ -178,7 +178,7 @@ const AddAdminModal = ({ onClose, onSubmit }: AddAdminModalProps) => {
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-xl w-full max-w-lg p-6 relative shadow-xl"
+        className="bg-white rounded-xl w-full max-w-lg p-4 sm:p-6 relative shadow-xl max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* X Close */}
@@ -190,7 +190,7 @@ const AddAdminModal = ({ onClose, onSubmit }: AddAdminModalProps) => {
         </button>
 
         {/* Title */}
-        <h2 className="text-lg font-semibold mb-6 pb-4 border-b border-gray-300 -mx-6 px-6">
+        <h2 className="text-lg font-semibold mb-6 pb-4 border-b border-gray-300 -mx-4 sm:-mx-6 px-4 sm:px-6">
           Add new admin
         </h2>
 
@@ -231,17 +231,17 @@ const AddAdminModal = ({ onClose, onSubmit }: AddAdminModalProps) => {
         </select>
 
         {/* Buttons */}
-        <div className="flex gap-4 mt-4">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-4">
           <button
             onClick={onClose}
-            className="w-1/2 py-2.5 bg-gray-200 rounded-lg font-medium"
+            className="w-full sm:w-1/2 py-2.5 bg-gray-200 rounded-lg font-medium order-2 sm:order-1"
           >
             Cancel
           </button>
 
           <button
             onClick={handleSubmit}
-            className="w-1/2 py-2.5 bg-primaryGreen-500 text-white rounded-lg font-medium"
+            className="w-full sm:w-1/2 py-2.5 bg-primaryGreen-500 text-white rounded-lg font-medium order-1 sm:order-2"
           >
             Add admin
           </button>
@@ -273,8 +273,8 @@ export default function AdminTable({ admins }: AdminTableProps) {
   return (
     <div className="bg-white shadow-lg rounded-lg">
       {/* Tabs */}
-      <div className="px-6 pt-6">
-        <div className="flex gap-6 border-b border-gray-200">
+      <div className="px-4 sm:px-6 pt-4 sm:pt-6">
+        <div className="flex gap-4 sm:gap-6 border-b border-gray-200">
           <button
             className={`pb-3 text-sm font-medium ${
               selectedTab === "admins"
@@ -303,13 +303,13 @@ export default function AdminTable({ admins }: AdminTableProps) {
       {selectedTab === "admins" && (
         <>
           {/* Header */}
-          <div className="flex justify-between items-center p-4">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 p-4">
             {/* Search */}
-            <div className="relative">
+            <div className="relative w-full sm:w-auto">
               <input
                 type="text"
                 placeholder="Search"
-                className="pl-10 pr-4 py-2 bg-gray-100 rounded-lg focus:ring-primaryGreen-500"
+                className="w-full sm:w-64 pl-10 pr-4 py-2 bg-gray-100 rounded-lg focus:ring-primaryGreen-500"
               />
               <svg
                 className="h-5 w-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"
@@ -322,7 +322,7 @@ export default function AdminTable({ admins }: AdminTableProps) {
             {/* Add Admin */}
             <button
               onClick={() => setShowAddModal(true)}
-              className="bg-primaryGreen-500 text-white px-4 py-2 rounded-lg flex items-center shadow-md"
+              className="bg-primaryGreen-500 text-white px-4 py-2 rounded-lg flex items-center justify-center shadow-md w-full sm:w-auto"
             >
               <svg className="h-5 w-5 mr-1" fill="currentColor">
                 <path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
@@ -331,8 +331,8 @@ export default function AdminTable({ admins }: AdminTableProps) {
             </button>
           </div>
 
-          {/* Table */}
-          <div className="overflow-x-auto">
+          {/* Table - Desktop */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
@@ -387,23 +387,47 @@ export default function AdminTable({ admins }: AdminTableProps) {
               </tbody>
             </table>
           </div>
+
+          {/* Cards - Mobile */}
+          <div className="md:hidden px-4 pb-4">
+            <div className="space-y-3">
+              {dataToRender.map((admin) => (
+                <div
+                  key={admin.id}
+                  onClick={() => setSelectedAdmin(admin)}
+                  className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md cursor-pointer"
+                >
+                  <div className="flex justify-between items-start mb-3">
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-gray-900 mb-1">
+                        {admin.name}
+                      </h3>
+                      <p className="text-sm text-gray-500">{admin.email}</p>
+                    </div>
+                    <ActionsDropdown
+                      adminId={admin.id}
+                      onViewAdmin={() => setSelectedAdmin(admin)}
+                    />
+                  </div>
+                  
+                  <div className="flex flex-wrap gap-2 text-xs">
+                    <span className="px-2 py-1 bg-gray-100 rounded text-gray-700">
+                      {admin.role}
+                    </span>
+                    <span className="px-2 py-1 bg-gray-100 rounded text-gray-700">
+                      {admin.regDate}
+                    </span>
+                    <StatusPill status={admin.status} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </>
       )}
 
       {/* -------------------- ROLES TAB -------------------- */}
-      {/* {selectedTab === "roles" && (
-        <div className="p-6 text-gray-600 text-sm">
-          <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
-            <p className="text-center text-gray-500">
-              Roles management will be implemented here.
-            </p>
-          </div>
-        </div>
-      )} */}
-
-
-      {/* -------------------- ROLES TAB -------------------- */}
-      {selectedTab === "roles" && <AdminRoles />}
+      {selectedTab === "roles" && <AdminRoles />}
 
       {/* Modals */}
       {selectedAdmin && (

@@ -10,7 +10,6 @@ export default function UserProfilePage() {
   const router = useRouter();
   const userId = params.id;
 
-  // Mock user data - replace with actual API call
   const user = {
     id: userId,
     firstName: "John",
@@ -19,19 +18,19 @@ export default function UserProfilePage() {
     phoneNumber: "08012345678",
     countryCode: "+234",
     status: "Active",
-    avatar: "/assets/user.png", // Using the actual user image
+    avatar: "/assets/user.png",
   };
 
   return (
     <div className="min-h-screen bg-[#F6F5FA]">
       <UserManagementHeader />
 
-      <main className="p-4 sm:p-6 lg:p-8">
+      <main className="p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto w-full">
         {/* Breadcrumb */}
         <div className="mb-4 sm:mb-6">
-          <div className="flex items-center gap-2 text-sm text-[#6C6C6C]">
+          <div className="flex flex-wrap items-center gap-2 text-sm text-[#6C6C6C]">
             <button
-              onClick={() => router.push('/user-management')}
+              onClick={() => router.push("/user-management")}
               className="hover:text-[#242424] transition-colors"
             >
               User Management
@@ -49,32 +48,33 @@ export default function UserProfilePage() {
         </div>
 
         {/* Profile Card */}
-        <div className="bg-white rounded-xl shadow-sm min-h-[600px] sm:min-h-[700px]">
-          <div className="p-6 sm:p-8 lg:p-10">
-            <h2 className="text-lg sm:text-xl font-semibold text-[#242424] mb-6 sm:mb-8">User profile</h2>
+        <div className="bg-white rounded-xl shadow-sm w-full min-h-[600px] sm:min-h-[700px]">
+          <div className="p-6 sm:p-8 lg:p-10 space-y-8">
+            <h2 className="text-lg sm:text-xl font-semibold text-[#242424]">User profile</h2>
 
-            {/* Avatar - Left Aligned */}
-            <div className="mb-8 sm:mb-10">
+            {/* Avatar */}
+            <div className="flex justify-center sm:justify-start mb-6">
               <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-[#E9E9E9] flex items-center justify-center overflow-hidden">
                 {user.avatar ? (
-                  <Image 
-                    src={user.avatar} 
-                    alt={`${user.firstName} ${user.lastName}`} 
+                  <Image
+                    src={user.avatar}
+                    alt={`${user.firstName} ${user.lastName}`}
                     width={128}
                     height={128}
-                    className="w-full h-full object-cover" 
+                    className="w-full h-full object-cover"
                   />
                 ) : (
                   <span className="text-3xl sm:text-4xl font-medium text-[#6C6C6C]">
-                    {user.firstName[0]}{user.lastName[0]}
+                    {user.firstName[0]}
+                    {user.lastName[0]}
                   </span>
                 )}
               </div>
             </div>
 
-            {/* Form Fields - Left Aligned */}
+            {/* Form Fields */}
             <div className="space-y-5 sm:space-y-6">
-              {/* Name Row */}
+              {/* Name */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                 <div>
                   <label className="block text-sm font-medium text-[#242424] mb-2">
@@ -100,7 +100,7 @@ export default function UserProfilePage() {
                 </div>
               </div>
 
-              {/* Email and Phone Row */}
+              {/* Email and Phone */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                 <div>
                   <label className="block text-sm font-medium text-[#242424] mb-2">

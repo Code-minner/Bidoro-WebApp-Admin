@@ -190,13 +190,13 @@ export default function OrderManagement() {
   };
 
   return (
-    <div className="flex-1 overflow-auto bg-gray-50 p-8">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6">Orders</h2>
+    <div className="flex-1 overflow-auto bg-gray-50 p-4 sm:p-6 md:p-8">
+      <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6">Orders</h2>
 
       <div className="bg-white rounded-lg border border-gray-200">
         {/* Tabs */}
-        <div className="border-b border-gray-200 px-6">
-          <div className="flex space-x-8">
+        <div className="border-b border-gray-200 px-4 sm:px-6">
+          <div className="flex space-x-4 sm:space-x-8 overflow-x-auto">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
@@ -205,7 +205,7 @@ export default function OrderManagement() {
                   setActiveTab(tab.id);
                   setCurrentPage(1);
                 }}
-                className={`py-4 border-b-2 transition-colors ${
+                className={`py-3 sm:py-4 border-b-2 transition-colors whitespace-nowrap ${
                   activeTab === tab.id
                     ? "border-[#495D48] text-[#495D48] font-medium"
                     : "border-transparent text-gray-600 hover:text-gray-900"
@@ -218,8 +218,8 @@ export default function OrderManagement() {
         </div>
 
         {/* Search & Filter */}
-        <div className="p-6 border-b border-gray-200 flex justify-between items-center">
-          <div className="relative w-full max-w-md">
+        <div className="p-4 sm:p-6 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 sm:gap-0">
+          <div className="relative w-full sm:max-w-md">
             <Search
               size={20}
               className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
@@ -238,7 +238,7 @@ export default function OrderManagement() {
 
           <button
             type="button"
-            className="ml-4 flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 bg-gray-50"
+            className="sm:ml-4 flex items-center justify-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 bg-gray-50"
           >
             <Filter size={20} />
             <span>Filters</span>
@@ -250,47 +250,47 @@ export default function OrderManagement() {
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                   Product
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                   Date
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                   Vendor
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                   Price
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                   Status
                 </th>
-                <th className="px-6 py-3"></th>
+                <th className="px-4 sm:px-6 py-3"></th>
               </tr>
             </thead>
 
             <tbody className="bg-white divide-y divide-gray-200">
               {paginatedOrders.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-gray-500">
+                  <td colSpan={6} className="px-4 sm:px-6 py-12 text-center text-gray-500">
                     No orders found
                   </td>
                 </tr>
               ) : (
                 paginatedOrders.map((order) => (
                   <tr key={order.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4">
+                    <td className="px-4 sm:px-6 py-4">
                       <div className="text-sm font-medium text-gray-900">
                         {order.product}
                       </div>
                       <div className="text-sm text-gray-500">{order.productId}</div>
                     </td>
 
-                    <td className="px-6 py-4 text-sm text-gray-900">{order.date}</td>
-                    <td className="px-6 py-4 text-sm text-gray-900">{order.vendor}</td>
-                    <td className="px-6 py-4 text-sm text-gray-900">{order.price}</td>
+                    <td className="px-4 sm:px-6 py-4 text-sm text-gray-900">{order.date}</td>
+                    <td className="px-4 sm:px-6 py-4 text-sm text-gray-900">{order.vendor}</td>
+                    <td className="px-4 sm:px-6 py-4 text-sm text-gray-900">{order.price}</td>
 
-                    <td className="px-6 py-4">
+                    <td className="px-4 sm:px-6 py-4">
                       <span
                         className={`px-3 py-1 text-xs font-semibold rounded-full ${order.statusColor}`}
                       >
@@ -298,7 +298,7 @@ export default function OrderManagement() {
                       </span>
                     </td>
 
-                    <td className="px-6 py-4 text-right relative">
+                    <td className="px-4 sm:px-6 py-4 text-right relative">
                       <button
                         type="button"
                         onClick={() => setOpenMenu(openMenu === order.id ? null : order.id)}
@@ -324,19 +324,19 @@ export default function OrderManagement() {
         </div>
 
         {/* Pagination */}
-        <div className="px-6 py-4 border-t border-gray-200 grid grid-cols-3 items-center">
-          <div className="text-sm text-gray-700">
+        <div className="px-4 sm:px-6 py-4 border-t border-gray-200 grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+          <div className="text-sm text-gray-700 text-center sm:text-left">
             Page {currentPage} of {totalPages}
           </div>
 
-          <div className="flex items-center justify-center gap-2">
+          <div className="flex items-center justify-center gap-1 sm:gap-2 overflow-x-auto">
             {getPageNumbers().map((page, index) => (
               <button
                 key={index}
                 type="button"
                 onClick={() => typeof page === "number" && setCurrentPage(page)}
                 disabled={page === "..."}
-                className={`px-3 py-1 rounded text-sm ${
+                className={`px-2 sm:px-3 py-1 rounded text-sm ${
                   page === "..." ? "cursor-default" : "hover:bg-gray-100"
                 } ${
                   page === currentPage
@@ -349,7 +349,7 @@ export default function OrderManagement() {
             ))}
           </div>
 
-          <div className="flex items-center justify-end gap-2">
+          <div className="flex items-center justify-center sm:justify-end gap-2">
             <button
               type="button"
               onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}

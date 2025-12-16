@@ -64,24 +64,24 @@ function ChangeBiddingTimeModal({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg p-4 md:p-6 max-w-sm w-full">
-        <div className="flex justify-between items-start border-b pb-4 mb-4 md:mb-6">
-          <h3 className="text-base md:text-lg font-semibold text-gray-900">Change Bidding Time</h3>
+      <div className="bg-white rounded-lg p-4 sm:p-6 max-w-sm w-full">
+        <div className="flex justify-between items-start border-b pb-3 sm:pb-4 mb-4 sm:mb-6">
+          <h3 className="text-base sm:text-lg font-semibold text-gray-900">Change Bidding Time</h3>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
+            className="text-gray-400 hover:text-gray-600 p-1"
           >
             <X size={20} />
           </button>
         </div>
 
-        <div className="space-y-4 mb-4 md:mb-6">
+        <div className="space-y-4 mb-4 sm:mb-6">
           <div>
-            <label className="block text-sm text-gray-700 mb-2">Day of the Week</label>
+            <label className="block text-xs sm:text-sm text-gray-700 mb-2">Day of the Week</label>
             <select
               value={dayOfWeek}
               onChange={(e) => setDayOfWeek(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15340B] bg-white"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15340B] bg-white text-sm"
             >
               <option value="Sunday">Sunday</option>
               <option value="Monday">Monday</option>
@@ -94,21 +94,21 @@ function ChangeBiddingTimeModal({
           </div>
 
           <div>
-            <label className="block text-sm text-gray-700 mb-2">Start Time</label>
+            <label className="block text-xs sm:text-sm text-gray-700 mb-2">Start Time</label>
             <input
               type="text"
               value={startTime}
               onChange={(e) => setStartTime(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15340B]"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15340B] text-sm"
             />
           </div>
 
           <div>
-            <label className="block text-sm text-gray-700 mb-2">Duration (Hourly)</label>
+            <label className="block text-xs sm:text-sm text-gray-700 mb-2">Duration (Hourly)</label>
             <select
               value={duration}
               onChange={(e) => setDuration(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15340B] bg-white"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15340B] bg-white text-sm"
             >
               <option value="1 hour">1 hour</option>
               <option value="2 hours">2 hours</option>
@@ -128,7 +128,7 @@ function ChangeBiddingTimeModal({
             console.log("Bidding time changed");
             onClose();
           }}
-          className="w-full px-4 py-2.5 bg-[#15340B] text-white rounded-lg hover:bg-[#192F18] text-sm font-medium"
+          className="w-full px-4 py-2.5 bg-[#15340B] text-white rounded-lg hover:bg-[#192F18] text-xs sm:text-sm font-medium"
         >
           Save
         </button>
@@ -143,7 +143,6 @@ export default function BudgetBids() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [showChangeTimeModal, setShowChangeTimeModal] = useState(false);
 
-  // Generate 30 budget bid records
   const budgetBids = Array.from({ length: 30 }, (_, i) => ({
     id: i + 1,
     product: {
@@ -201,26 +200,26 @@ export default function BudgetBids() {
         onClose={() => setShowChangeTimeModal(false)}
       />
 
-      <div className="flex-1 overflow-auto p-4 md:p-8">
-        <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-4 md:mb-6">Budget bids</h2>
+      <div className="flex-1 overflow-auto p-3 sm:p-6 lg:p-8">
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 px-1">Budget bids</h2>
 
         {/* Next Auction Card */}
-        <div className="bg-white rounded-lg border border-gray-200 p-4 md:p-6 mb-4 md:mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-              <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6 mb-4 sm:mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
-            <div>
-              <div className="text-sm text-gray-500">Next Auction</div>
-              <div className="text-base md:text-lg font-semibold text-gray-900">Sunday, November 16, 2025</div>
-              <div className="text-sm text-gray-500">⏰ 12:00pm - 6 hours Duration</div>
+            <div className="min-w-0">
+              <div className="text-xs sm:text-sm text-gray-500">Next Auction</div>
+              <div className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900 truncate">Sunday, November 16, 2025</div>
+              <div className="text-xs sm:text-sm text-gray-500">⏰ 12:00pm - 6 hours Duration</div>
             </div>
           </div>
           <button 
             onClick={() => setShowChangeTimeModal(true)}
-            className="px-4 py-2 bg-[#15340B] text-white rounded-lg hover:bg-[#192F18] text-sm font-medium w-full sm:w-auto"
+            className="px-4 py-2 bg-[#15340B] text-white rounded-lg hover:bg-[#192F18] text-xs sm:text-sm font-medium w-full sm:w-auto whitespace-nowrap"
           >
             Change
           </button>
@@ -229,7 +228,7 @@ export default function BudgetBids() {
         {/* Main Content */}
         <div className="bg-white rounded-lg border border-gray-200">
           {/* Search and Filter */}
-          <div className="p-4 md:p-6 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3">
+          <div className="p-4 sm:p-6 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3">
             <div className="relative w-full sm:max-w-md">
               <Search
                 size={20}
@@ -243,13 +242,13 @@ export default function BudgetBids() {
                   setSearchQuery(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15340B] border-gray-300 bg-gray-50"
+                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15340B] border-gray-300 bg-gray-50 text-sm"
               />
             </div>
 
             <button
               type="button"
-              className="flex items-center justify-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 bg-gray-50"
+              className="flex items-center justify-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 bg-gray-50 text-sm"
             >
               <svg
                 className="w-5 h-5"
@@ -268,10 +267,9 @@ export default function BudgetBids() {
             </button>
           </div>
 
-          {/* Table */}
-          <div className="overflow-x-auto">
-            {/* Desktop Table */}
-            <table className="w-full hidden md:table">
+          {/* Desktop Table */}
+          <div className="hidden lg:block overflow-x-auto">
+            <table className="w-full">
               <thead className="bg-gray-50 border-b border-gray-200">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
@@ -311,7 +309,7 @@ export default function BudgetBids() {
                     <tr key={bid.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4">
                         <div className="flex items-center">
-                          <div className="w-10 h-10 rounded bg-gray-200 flex items-center justify-center mr-3 overflow-hidden">
+                          <div className="w-10 h-10 rounded bg-gray-200 flex items-center justify-center mr-3 overflow-hidden flex-shrink-0">
                             <Image
                               src={bid.product.image}
                               alt={bid.product.name}
@@ -320,7 +318,7 @@ export default function BudgetBids() {
                               className="object-cover"
                             />
                           </div>
-                          <div>
+                          <div className="min-w-0">
                             <div className="text-sm font-medium text-gray-900">
                               {bid.product.name}
                             </div>
@@ -362,7 +360,7 @@ export default function BudgetBids() {
                             setOpenMenu(openMenu === bid.id ? null : bid.id)
                           }
                           aria-expanded={openMenu === bid.id}
-                          className="text-gray-400 hover:text-gray-600"
+                          className="text-gray-400 hover:text-gray-600 p-1"
                         >
                           <MoreVertical size={20} />
                         </button>
@@ -376,95 +374,97 @@ export default function BudgetBids() {
                 )}
               </tbody>
             </table>
+          </div>
 
-            {/* Mobile Card View */}
-            <div className="md:hidden divide-y divide-gray-200">
-              {paginatedBids.length === 0 ? (
-                <div className="px-4 py-12 text-center text-gray-500">
-                  No budget bids found
-                </div>
-              ) : (
-                paginatedBids.map((bid) => (
-                  <div key={bid.id} className="p-4 hover:bg-gray-50">
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="flex items-center flex-1">
-                        <div className="w-12 h-12 rounded bg-gray-200 flex items-center justify-center mr-3 overflow-hidden flex-shrink-0">
-                          <Image
-                            src={bid.product.image}
-                            alt={bid.product.name}
-                            width={48}
-                            height={48}
-                            className="object-cover"
-                          />
+          {/* Mobile Card View */}
+          <div className="lg:hidden px-4 py-4">
+            {paginatedBids.length === 0 ? (
+              <div className="py-12 text-center text-gray-500">
+                No budget bids found
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {paginatedBids.map((bid) => (
+                  <div key={bid.id} className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <div className="flex items-start gap-3 mb-3">
+                      <div className="w-12 h-12 rounded bg-gray-200 flex items-center justify-center overflow-hidden flex-shrink-0">
+                        <Image
+                          src={bid.product.image}
+                          alt={bid.product.name}
+                          width={48}
+                          height={48}
+                          className="object-cover"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-medium text-gray-900 truncate">
+                          {bid.product.name}
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="text-sm font-medium text-gray-900 truncate">
-                            {bid.product.name}
-                          </div>
-                          <div className="text-xs text-gray-500">
-                            {bid.product.category}
-                          </div>
+                        <div className="text-xs text-gray-500">
+                          {bid.product.category}
                         </div>
                       </div>
-                      <div className="flex items-center gap-2 ml-2">
+                      <div className="flex items-center gap-2 flex-shrink-0">
                         <span
                           className={`px-2 py-1 text-xs font-semibold rounded-full whitespace-nowrap ${bid.statusColor}`}
                         >
                           {bid.status}
                         </span>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setOpenMenu(openMenu === bid.id ? null : bid.id)
-                          }
-                          className="text-gray-400 hover:text-gray-600 relative"
-                        >
-                          <MoreVertical size={20} />
+                        <div className="relative">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setOpenMenu(openMenu === bid.id ? null : bid.id)
+                            }
+                            className="text-gray-400 hover:text-gray-600 p-1"
+                          >
+                            <MoreVertical size={18} />
+                          </button>
                           {openMenu === bid.id && (
                             <ActionMenu onClose={() => setOpenMenu(null)} />
                           )}
-                        </button>
+                        </div>
                       </div>
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-3 text-sm">
+                    <div className="grid grid-cols-2 gap-3 text-xs">
                       <div>
-                        <div className="text-xs text-gray-500 mb-1">Seller</div>
-                        <div className="text-gray-900 font-medium">{bid.seller}</div>
+                        <div className="text-gray-500 mb-1">Seller</div>
+                        <div className="text-gray-900 font-medium truncate">{bid.seller}</div>
                       </div>
                       <div>
-                        <div className="text-xs text-gray-500 mb-1">Current Bid</div>
+                        <div className="text-gray-500 mb-1">Current Bid</div>
                         <div className="text-gray-900 font-medium">{bid.currentBid}</div>
                       </div>
                       <div>
-                        <div className="text-xs text-gray-500 mb-1">Time</div>
+                        <div className="text-gray-500 mb-1">Time</div>
                         <div className="text-gray-900">{bid.startingTime} - {bid.endTime}</div>
                       </div>
                       <div>
-                        <div className="text-xs text-gray-500 mb-1">Total Bids</div>
+                        <div className="text-gray-500 mb-1">Total Bids</div>
                         <div className="text-gray-900">{bid.bids}</div>
                       </div>
                     </div>
                   </div>
-                ))
-              )}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Pagination */}
-          <div className="px-4 md:px-6 py-4 border-t border-gray-200 flex flex-col sm:grid sm:grid-cols-3 items-center gap-4">
-            <div className="text-sm text-gray-700 text-center sm:text-left">
+          <div className="px-4 sm:px-6 py-4 border-t border-gray-200 flex flex-col sm:grid sm:grid-cols-3 items-center gap-4">
+            <div className="text-sm text-gray-700 text-center sm:text-left order-1">
               Page {currentPage} of {totalPages}
             </div>
 
-            <div className="flex items-center justify-center gap-1 md:gap-2 flex-wrap">
+            <div className="flex items-center justify-center gap-1 sm:gap-2 overflow-x-auto order-3 sm:order-2 w-full sm:w-auto">
               {getPageNumbers().map((page, index) => (
                 <button
                   key={index}
                   type="button"
                   onClick={() => typeof page === "number" && setCurrentPage(page)}
                   disabled={page === "..."}
-                  className={`px-2 md:px-3 py-1 rounded text-sm ${
+                  className={`px-2 sm:px-3 py-1 rounded text-sm flex-shrink-0 ${
                     page === "..." ? "cursor-default" : "hover:bg-gray-100"
                   } ${
                     page === currentPage
@@ -477,12 +477,13 @@ export default function BudgetBids() {
               ))}
             </div>
 
-            <div className="flex items-center justify-end gap-2">
+            <div className="flex items-center justify-center sm:justify-end gap-2 order-2 sm:order-3">
               <button
                 type="button"
                 onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
-                className="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                aria-label="Previous page"
               >
                 <ChevronLeft size={20} />
               </button>
@@ -493,7 +494,8 @@ export default function BudgetBids() {
                   setCurrentPage(Math.min(totalPages, currentPage + 1))
                 }
                 disabled={currentPage === totalPages}
-                className="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                aria-label="Next page"
               >
                 <ChevronRight size={20} />
               </button>

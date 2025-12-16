@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
 import { Search, SlidersHorizontal, MoreVertical, X } from "lucide-react";
 import Image from "next/image";
 
@@ -29,31 +29,23 @@ export default function UserTable({ users, userType }: UserTableProps) {
   const [suspendModalUser, setSuspendModalUser] = useState<User | null>(null);
 
   const filterRef = useRef<HTMLDivElement>(null);
-
   const router = useRouter();
 
-  // Close dropdowns when clicking outside
+  // Close dropdowns
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      // Close Filter dropdown
       if (filterRef.current && !filterRef.current.contains(e.target as Node)) {
         setIsFilterOpen(false);
       }
-      
-      // Close Action menu dropdown - check if click is outside all dropdowns
       if (openDropdownId !== null) {
-        const dropdowns = document.querySelectorAll('[data-dropdown-menu]');
+        const dropdowns = document.querySelectorAll("[data-dropdown-menu]");
         let clickedInside = false;
-        
+
         dropdowns.forEach((dropdown) => {
-          if (dropdown.contains(e.target as Node)) {
-            clickedInside = true;
-          }
+          if (dropdown.contains(e.target as Node)) clickedInside = true;
         });
-        
-        if (!clickedInside) {
-          setOpenDropdownId(null);
-        }
+
+        if (!clickedInside) setOpenDropdownId(null);
       }
     };
 
@@ -61,23 +53,19 @@ export default function UserTable({ users, userType }: UserTableProps) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [openDropdownId]);
 
-  // Navigation handler
   const handleViewProfile = (e: React.MouseEvent<HTMLButtonElement>, userId: string) => {
     e.stopPropagation();
     router.push(`/user-management/${userType}/${userId}`);
-    setOpenDropdownId(null); 
+    setOpenDropdownId(null);
   };
 
-  // Suspend handler
   const handleSuspendClick = (e: React.MouseEvent<HTMLButtonElement>, user: User) => {
     e.stopPropagation();
     setSuspendModalUser(user);
     setOpenDropdownId(null);
   };
 
-  // Confirm suspend
   const handleConfirmSuspend = () => {
-    // TODO: Implement actual suspend logic here
     console.log("Suspending user:", suspendModalUser?.id);
     setSuspendModalUser(null);
   };
@@ -85,10 +73,8 @@ export default function UserTable({ users, userType }: UserTableProps) {
   return (
     <>
       <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-        {/* Search + Filter Bar */}
+        {/* Search + Filter */}
         <div className="p-4 sm:p-6 flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-center sm:justify-between">
-
-          {/* Search */}
           <div className="relative flex-1 max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6C6C6C]" />
             <input
@@ -100,7 +86,7 @@ export default function UserTable({ users, userType }: UserTableProps) {
             />
           </div>
 
-          {/* Filter dropdown */}
+          {/* Filter */}
           <div className="relative" ref={filterRef}>
             <button
               onClick={() => {
@@ -115,10 +101,10 @@ export default function UserTable({ users, userType }: UserTableProps) {
 
             {isFilterOpen && (
               <div className="absolute right-0 top-12 w-72 bg-white rounded-lg border border-[#E9E9E9] shadow-md p-4 z-40">
-                {/* Filter Content */}
+                {/* Filter menu */}
                 <p className="text-sm font-medium mb-3">Filters</p>
 
-                {/* Date Range */}
+                {/* Date range */}
                 <div className="flex items-center justify-between mb-1">
                   <label className="text-xs text-[#6C6C6C]">Date range</label>
                   <button className="text-xs text-[#15340B] font-medium">Reset</button>
@@ -160,7 +146,6 @@ export default function UserTable({ users, userType }: UserTableProps) {
                   <option>Suspended</option>
                 </select>
 
-                {/* Bottom Buttons */}
                 <div className="flex items-center justify-between">
                   <button className="text-sm text-[#6C6C6C] border border-[#E9E9E9] rounded-lg px-3 py-1 hover:bg-[#F6F5FA]">
                     Reset all
@@ -175,43 +160,31 @@ export default function UserTable({ users, userType }: UserTableProps) {
           </div>
         </div>
 
-        {/* Table */}
+        {/* Table wrapper */}
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-full min-w-[850px]">
             <thead className="border-b border-[#E9E9E9]">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-[#6C6C6C] uppercase">
-                  Name
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-[#6C6C6C] uppercase">
-                  Reg. date
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-[#6C6C6C] uppercase">
-                  Phone number
-                </th>
+                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-[#6C6C6C] uppercase">Name</th>
+                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-[#6C6C6C] uppercase">Reg. date</th>
+                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-[#6C6C6C] uppercase">Phone number</th>
 
                 {userType !== "admins" && (
-                  <th className="px-6 py-3 text-left text-xs font-medium text-[#6C6C6C] uppercase">
-                    Orders
-                  </th>
+                  <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-[#6C6C6C] uppercase">Orders</th>
                 )}
 
-                <th className="px-6 py-3 text-left text-xs font-medium text-[#6C6C6C] uppercase">
-                  Status
-                </th>
+                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-[#6C6C6C] uppercase">Status</th>
 
-                <th className="px-6 py-3 text-right text-xs font-medium text-[#6C6C6C] uppercase">
-                  Actions
-                </th>
+                <th className="px-4 sm:px-6 py-3 text-right text-xs font-medium text-[#6C6C6C] uppercase">Actions</th>
               </tr>
             </thead>
 
             <tbody className="bg-white divide-y divide-[#E9E9E9]">
               {users.map((user) => (
                 <tr key={user.id} className="hover:bg-[#F6F5FA] transition-colors">
-                  <td className="px-6 py-4">
+                  <td className="px-4 sm:px-6 py-3 sm:py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-[#E9E9E9] flex items-center justify-center overflow-hidden">
+                      <div className="w-10 h-10 rounded-full bg-[#E9E9E9] flex items-center justify-center overflow-hidden shrink-0">
                         {user.avatar ? (
                           <Image
                             src={user.avatar}
@@ -226,24 +199,21 @@ export default function UserTable({ users, userType }: UserTableProps) {
                           </span>
                         )}
                       </div>
-                      <div>
-                        <div className="text-sm font-medium text-[#242424]">{user.name}</div>
-                        <div className="text-xs text-[#6C6C6C]">{user.email}</div>
+                      <div className="min-w-0">
+                        <div className="text-sm font-medium text-[#242424] truncate">{user.name}</div>
+                        <div className="text-xs text-[#6C6C6C] break-all">{user.email}</div>
                       </div>
                     </div>
                   </td>
 
-                  <td className="px-6 py-4 text-sm text-[#6C6C6C]">{user.regDate}</td>
-
-                  <td className="px-6 py-4 text-sm text-[#6C6C6C]">{user.phoneNumber}</td>
+                  <td className="px-4 sm:px-6 py-3 sm:py-4 text-sm text-[#6C6C6C]">{user.regDate}</td>
+                  <td className="px-4 sm:px-6 py-3 sm:py-4 text-sm text-[#6C6C6C]">{user.phoneNumber}</td>
 
                   {userType !== "admins" && (
-                    <td className="px-6 py-4 text-sm text-[#242424] font-medium">
-                      {user.orders || 0}
-                    </td>
+                    <td className="px-4 sm:px-6 py-3 sm:py-4 text-sm text-[#242424] font-medium">{user.orders || 0}</td>
                   )}
 
-                  <td className="px-6 py-4">
+                  <td className="px-4 sm:px-6 py-3 sm:py-4">
                     <span
                       className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
                         user.status === "Active"
@@ -255,9 +225,8 @@ export default function UserTable({ users, userType }: UserTableProps) {
                     </span>
                   </td>
 
-                  {/* 3-dots dropdown */}
-                  <td className="px-6 py-4 text-right">
-                    <div className="relative inline-block"> 
+                  <td className="px-4 sm:px-6 py-3 sm:py-4 text-right">
+                    <div className="relative inline-block">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -270,26 +239,25 @@ export default function UserTable({ users, userType }: UserTableProps) {
                       </button>
 
                       {openDropdownId === user.id && (
-                        <div 
+                        <div
                           data-dropdown-menu
                           className="absolute right-0 mt-2 w-40 bg-white border border-[#E9E9E9] rounded-lg shadow-lg z-50 py-1"
                         >
-                          <button 
-                              onClick={(e) => handleViewProfile(e, user.id)}
-                              className="w-full text-left px-4 py-2 text-sm hover:bg-[#F6F5FA] text-[#242424]"
+                          <button
+                            onClick={(e) => handleViewProfile(e, user.id)}
+                            className="w-full text-left px-4 py-2 text-sm hover:bg-[#F6F5FA] text-[#242424]"
                           >
                             View profile
                           </button>
-                          
-                          <button 
-                              onClick={(e) => e.stopPropagation()}
-                              className="w-full text-left px-4 py-2 text-sm hover:bg-[#F6F5FA] text-[#242424]"
+                          <button
+                            onClick={(e) => e.stopPropagation()}
+                            className="w-full text-left px-4 py-2 text-sm hover:bg-[#F6F5FA] text-[#242424]"
                           >
                             Edit
                           </button>
-                          <button 
-                              onClick={(e) => handleSuspendClick(e, user)}
-                              className="w-full text-left px-4 py-2 text-sm hover:bg-[#F6F5FA] text-[#6C6C6C]"
+                          <button
+                            onClick={(e) => handleSuspendClick(e, user)}
+                            className="w-full text-left px-4 py-2 text-sm hover:bg-[#F6F5FA] text-[#6C6C6C]"
                           >
                             Suspend
                           </button>
@@ -304,38 +272,33 @@ export default function UserTable({ users, userType }: UserTableProps) {
         </div>
 
         {/* Pagination */}
-        <div className="px-6 py-4 border-t border-[#E9E9E9] flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="px-4 sm:px-6 py-4 border-t border-[#E9E9E9] flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-sm text-[#6C6C6C]">Page 1 of 30</div>
 
-          <div className="flex items-center gap-1">
-            <button className="w-8 h-8 flex items-center justify-center border rounded-lg text-[#6C6C6C]">
-              1
-            </button>
-            <button className="w-8 h-8 flex items-center justify-center border rounded-lg text-[#6C6C6C]">
-              2
-            </button>
-            <button className="w-8 h-8 flex items-center justify-center bg-[#15340B] text-white rounded-lg">
-              3
-            </button>
+          <div className="flex flex-wrap justify-center gap-1">
+            {[1, 2, 3].map((n) => (
+              <button
+                key={n}
+                className={`w-8 h-8 flex items-center justify-center border rounded-lg ${
+                  n === 3 ? "bg-[#15340B] text-white" : "text-[#6C6C6C]"
+                }`}
+              >
+                {n}
+              </button>
+            ))}
+
             <span className="px-2 text-[#6C6C6C]">...</span>
-            <button className="w-8 h-8 flex items-center justify-center border rounded-lg text-[#6C6C6C]">
-              10
-            </button>
-            <button className="w-8 h-8 flex items-center justify-center border rounded-lg text-[#6C6C6C]">
-              11
-            </button>
-            <button className="w-8 h-8 flex items-center justify-center border rounded-lg text-[#6C6C6C]">
-              12
-            </button>
+
+            {[10, 11, 12].map((n) => (
+              <button key={n} className="w-8 h-8 flex items-center justify-center border rounded-lg text-[#6C6C6C]">
+                {n}
+              </button>
+            ))}
           </div>
 
           <div className="flex items-center gap-2">
-            <button className="w-8 h-8 flex items-center justify-center border rounded-lg text-[#6C6C6C]">
-              ‹
-            </button>
-            <button className="w-8 h-8 flex items-center justify-center border rounded-lg text-[#6C6C6C]">
-              ›
-            </button>
+            <button className="w-8 h-8 flex items-center justify-center border rounded-lg text-[#6C6C6C]">‹</button>
+            <button className="w-8 h-8 flex items-center justify-center border rounded-lg text-[#6C6C6C]">›</button>
           </div>
         </div>
       </div>
@@ -343,8 +306,7 @@ export default function UserTable({ users, userType }: UserTableProps) {
       {/* Suspend Modal */}
       {suspendModalUser && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-4 sm:p-6 relative">
-            {/* Close button */}
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-4 sm:p-6 relative">
             <button
               onClick={() => setSuspendModalUser(null)}
               className="absolute top-3 right-3 sm:top-4 sm:right-4 p-1 hover:bg-[#F6F5FA] rounded-lg transition-colors"
@@ -352,19 +314,13 @@ export default function UserTable({ users, userType }: UserTableProps) {
               <X className="w-5 h-5 text-[#6C6C6C]" />
             </button>
 
-            {/* Title - Centered */}
-            <h3 className="text-base sm:text-lg font-semibold text-[#242424] mb-2 text-center">
-              Suspend customer
-            </h3>
+            <h3 className="text-base sm:text-lg font-semibold text-[#242424] mb-2 text-center">Suspend customer</h3>
 
-            {/* Description */}
             <p className="text-xs sm:text-sm text-[#6C6C6C] text-center mb-4 sm:mb-6">
               User will no longer have access to their account. Are you sure you want to blacklist this user?
             </p>
 
-            {/* User Info - Gray background wrapper */}
             <div className="bg-[#F6F5FA] rounded-lg p-3 sm:p-4 mb-4 sm:mb-6">
-              {/* White background for content */}
               <div className="bg-white rounded-lg p-3 sm:p-4 space-y-2 sm:space-y-3">
                 <div className="flex justify-between items-center text-xs sm:text-sm">
                   <span className="text-[#6C6C6C]">Name</span>
@@ -381,7 +337,6 @@ export default function UserTable({ users, userType }: UserTableProps) {
               </div>
             </div>
 
-            {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={() => setSuspendModalUser(null)}

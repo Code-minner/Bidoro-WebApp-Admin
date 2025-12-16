@@ -83,7 +83,8 @@ const DUMMY_ROLES: Role[] = [
 ];
 
 const PermissionsPill = ({ text }: { text: string }) => (
-  <span className="inline-block bg-gray-100 text-gray-800 text-xs font-medium px-3 py-1 rounded-full mr-2 mb-1">
+  <span className="inline-flex items-center bg-gray-100 text-gray-800 text-xs font-medium px-3 py-1 rounded-full mr-2 mb-1">
+    <span className="text-gray-400 mr-2">|</span>
     {text}
   </span>
 );
@@ -147,59 +148,57 @@ export default function AdminRoles() {
 
       {/* Desktop Table View */}
       <div className="hidden md:block overflow-x-auto px-4 sm:px-6 pb-6">
-        <div className="border border-gray-200 rounded-lg">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase w-1/5">
-                  Title
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase w-3/5">
-                  Permissions
-                </th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase w-1/5">
-                  Action
-                </th>
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase w-1/5">
+                Title
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase w-3/5">
+                Permissions
+              </th>
+              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase w-1/5">
+                Action
+              </th>
+            </tr>
+          </thead>
+
+          <tbody className="bg-white divide-y divide-gray-200">
+            {filteredRoles.map((role) => (
+              <tr key={role.title}>
+                <td className="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
+                  {role.title}
+                </td>
+
+                <td className="px-6 py-4 text-sm text-gray-500">
+                  <div className="flex flex-wrap">
+                    {role.permissions.map((p, index) => (
+                      <PermissionsPill key={index} text={p} />
+                    ))}
+                  </div>
+                </td>
+
+                <td className="px-6 py-4 text-right text-sm font-medium whitespace-nowrap">
+                  <div className="flex justify-end gap-4">
+                    <button
+                      className="text-primaryGreen-600 hover:text-primaryGreen-900"
+                      onClick={() => {
+                        setRoleToEdit(role);
+                        setShowEditModal(true);
+                      }}
+                    >
+                      <Pencil className="w-5 h-5" />
+                    </button>
+
+                    <button className="text-error-600 hover:text-error-900">
+                      <Trash2 className="w-5 h-5" />
+                    </button>
+                  </div>
+                </td>
               </tr>
-            </thead>
-
-            <tbody className="bg-white divide-y divide-gray-200">
-              {filteredRoles.map((role) => (
-                <tr key={role.title}>
-                  <td className="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
-                    {role.title}
-                  </td>
-
-                  <td className="px-6 py-4 text-sm text-gray-500">
-                    <div className="flex flex-wrap">
-                      {role.permissions.map((p, index) => (
-                        <PermissionsPill key={index} text={p} />
-                      ))}
-                    </div>
-                  </td>
-
-                  <td className="px-6 py-4 text-right text-sm font-medium whitespace-nowrap">
-                    <div className="flex justify-end gap-4">
-                      <button
-                        className="text-primaryGreen-600 hover:text-primaryGreen-900"
-                        onClick={() => {
-                          setRoleToEdit(role);
-                          setShowEditModal(true);
-                        }}
-                      >
-                        <Pencil className="w-5 h-5" />
-                      </button>
-
-                      <button className="text-error-600 hover:text-error-900">
-                        <Trash2 className="w-5 h-5" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       {/* Mobile Card View */}
